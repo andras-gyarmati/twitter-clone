@@ -1,6 +1,6 @@
 
       [nz-form] {
-        max-width: 600px;
+        /*max-width: 600px;*/
       }
 
       .phone-select {
@@ -10,4 +10,7 @@
       .register-are {
         margin-bottom: 8px;
       }
-    
+
+      h1 {
+        margin-bottom: 40px;
+      }

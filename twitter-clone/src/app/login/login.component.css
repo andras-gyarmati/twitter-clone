@@ -1,6 +1,6 @@
 
       .login-form {
-        max-width: 300px;
+        /*max-width: 300px;*/
       }
 
       .login-form-margin {
@@ -14,4 +14,7 @@
       .login-form-button {
         width: 100%;
       }
-    
+
+      h1 {
+        margin-bottom: 40px;
+      }

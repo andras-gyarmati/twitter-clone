@@ -17,6 +17,21 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzSelectModule} from "ng-zorro-antd/select";
+import { LayoutComponent } from './layout/layout.component';
+import {NzLayoutModule} from "ng-zorro-antd/layout";
+import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
+import {NzMenuModule} from "ng-zorro-antd/menu";
+import {NzTypographyModule} from "ng-zorro-antd/typography";
+import { TweetComponent } from './tweet/tweet.component';
+import {NzCommentModule} from "ng-zorro-antd/comment";
+import {NzAvatarModule} from "ng-zorro-antd/avatar";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import { TweetListComponent } from './tweet-list/tweet-list.component';
+import {NzListModule} from "ng-zorro-antd/list";
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import {NzDividerModule} from "ng-zorro-antd/divider";
+import {NzCardModule} from "ng-zorro-antd/card";
 
 registerLocaleData(en);
 
@@ -25,7 +40,10 @@ registerLocaleData(en);
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LobbyComponent
+    LobbyComponent,
+    LayoutComponent,
+    TweetComponent,
+    TweetListComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +56,19 @@ registerLocaleData(en);
     ReactiveFormsModule,
     NzButtonModule,
     NzCheckboxModule,
-    NzSelectModule
+    NzSelectModule,
+    NzLayoutModule,
+    NzBreadCrumbModule,
+    NzMenuModule,
+    NzTypographyModule,
+    NzCommentModule,
+    NzAvatarModule,
+    NzToolTipModule,
+    NzIconModule,
+    NzListModule,
+    NzMessageModule,
+    NzDividerModule,
+    NzCardModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}

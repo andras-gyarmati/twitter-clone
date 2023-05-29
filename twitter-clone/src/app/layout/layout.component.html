@@ -1,0 +1,30 @@
+
+    <nz-layout>
+      <nz-header>
+        <div class="logo"></div>
+        <div nz-row>
+          <div nz-col nzSpan="8">
+            <ul nz-menu nzTheme="dark" nzMode="horizontal">
+            <li nz-menu-item><a href="/tweets">Tweets</a></li>
+            <li nz-menu-item>nav 2</li>
+            <li nz-menu-item>nav 3</li>
+          </ul></div>
+          <nz-row nz-col nzSpan="8" nzOffset="8" nzJustify="end" class="right-menu">
+            <ul nz-menu nzTheme="dark" nzMode="horizontal">
+              <li nz-menu-item><a href="/login" >Login</a></li>
+              <li nz-menu-item><a href="/register">Registration</a></li>
+              <li nz-menu-item>Profil</li>
+            </ul>
+          </nz-row>
+        </div>
+
+      </nz-header>
+      <nz-content class="content">
+        <div nz-row>
+          <div nz-col nzSpan="12" nzOffset="6">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </nz-content>
+      <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+    </nz-layout>

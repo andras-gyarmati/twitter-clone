@@ -1,13 +1,16 @@
+      <nz-row >
+        <h1 nz-typography>Register</h1>
+      </nz-row>
 
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzLabelAlign="left" nzFor="email">E-mail</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
           <input nz-input formControlName="email" id="email" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired nzLabelAlign="left">Password</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
           <input
             nz-input
@@ -19,7 +22,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired nzLabelAlign="left">Confirm Password</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
           <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
           <ng-template #errorTpl let-control>
@@ -36,6 +39,7 @@
           [nzXs]="24"
           nzFor="nickname"
           nzRequired
+          nzLabelAlign="left"
           nzTooltipTitle="What do you want other to call you"
         >
           <span>Nickname</span>
@@ -45,7 +49,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired nzLabelAlign="left">Phone Number</nz-form-label>
         <nz-form-control
           [nzSm]="14"
           [nzXs]="24"
@@ -64,7 +68,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired>Website</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired nzLabelAlign="left">Website</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input website!">
           <input nz-input id="website" formControlName="website" placeholder="website" />
         </nz-form-control>
@@ -75,6 +79,7 @@
           [nzXs]="24"
           nzFor="captcha"
           nzRequired
+          nzLabelAlign="left"
           nzTooltipTitle="Please click 'Get captcha'"
           [nzTooltipIcon]="captchaTooltipIcon"
         >
@@ -112,4 +117,3 @@
         </nz-form-control>
       </nz-form-item>
     </form>
-  

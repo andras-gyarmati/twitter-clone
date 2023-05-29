@@ -10,7 +10,7 @@ export class RouterService {
   constructor(private router: Router) {
   }
 
-  routeToLobby(): void {
-    this.router.navigateByUrl(`/${PageRoutes.lobby}`);
+  routeToTweets(): void {
+    this.router.navigateByUrl(`/${PageRoutes.tweets}`);
   }
 }

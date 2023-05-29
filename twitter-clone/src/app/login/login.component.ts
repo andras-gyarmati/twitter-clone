@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
       console.log('submit', this.loginForm.value);
       this.clientService.login().subscribe((response) => {
         this.userService.store(response.token);
-        this.routerService.routeToLobby();
+        this.routerService.routeToTweets();
       })
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
