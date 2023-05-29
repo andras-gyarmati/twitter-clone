@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {RegistrationComponent} from './registration/registration.component';
+import {RegisterComponent} from './register/register.component';
 import {LobbyComponent} from './lobby/lobby.component';
 import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
@@ -16,6 +16,7 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 registerLocaleData(en);
 
@@ -23,7 +24,7 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent,
+    RegisterComponent,
     LobbyComponent
   ],
   imports: [
@@ -36,7 +37,8 @@ registerLocaleData(en);
     NzInputModule,
     ReactiveFormsModule,
     NzButtonModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzSelectModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}

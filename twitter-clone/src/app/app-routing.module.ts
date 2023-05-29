@@ -3,13 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./login/login.component";
 import {PageRoutes} from "./_constants/page-routes";
 import {LobbyComponent} from "./lobby/lobby.component";
-import {RegistrationComponent} from "./registration/registration.component";
+import {RegisterComponent} from "./register/register.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: `/${PageRoutes.login}`, pathMatch: 'prefix'},
   {path: PageRoutes.login, component: LoginComponent},
-  {path: PageRoutes.registration, component: RegistrationComponent},
+  {path: PageRoutes.register, component: RegisterComponent},
   {path: PageRoutes.lobby, component: LobbyComponent},
+  {path: '', redirectTo: `/${PageRoutes.login}`, pathMatch: 'prefix'},
 ];
 
 @NgModule({
