@@ -1,10 +1,6 @@
 
       .login-form {
         max-width: 300px;
-        margin-top: 50px;
-        margin-inline: auto;
-        border: 1px solid gray;
-        padding: 50px;
       }
 
       .login-form-margin {
@@ -18,3 +14,4 @@
       .login-form-button {
         width: 100%;
       }
+    

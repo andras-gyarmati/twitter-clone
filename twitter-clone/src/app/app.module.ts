@@ -1,48 +1,47 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { UserOutline, LockOutline } from '@ant-design/icons-angular/icons';
-import { NzIconModule, NzIconService } from 'ng-zorro-antd/icon';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import {NzInputModule} from "ng-zorro-antd/input";
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './login/login.component';
+import {RegistrationComponent} from './registration/registration.component';
+import {LobbyComponent} from './lobby/lobby.component';
+import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
+import {registerLocaleData} from '@angular/common';
+import en from '@angular/common/locales/en';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NzFormModule} from "ng-zorro-antd/form";
-import {ReactiveFormsModule} from "@angular/forms";
-import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
-import {NzCardModule} from "ng-zorro-antd/card";
-import { RegisterComponent } from './register/register.component';
-import {NzSelectModule} from "ng-zorro-antd/select";
-import { IconDefinition } from '@ant-design/icons-angular';
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 
-const icons: IconDefinition[] = [ UserOutline, LockOutline ];
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegistrationComponent,
+    LobbyComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NzInputModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
     NzFormModule,
+    NzInputModule,
     ReactiveFormsModule,
-    NzCheckboxModule,
     NzButtonModule,
-    NzCardModule,
-    NzSelectModule,
-    HttpClientModule
+    NzCheckboxModule
   ],
-  providers: [],
+  providers: [
+    {provide: NZ_I18N, useValue: en_US}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private nzIconService: NzIconService) {
-    // Add the icons to the library
-    nzIconService.addIcon(...icons);
-  }
 }
