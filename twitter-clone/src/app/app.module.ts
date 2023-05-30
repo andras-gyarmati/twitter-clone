@@ -32,6 +32,8 @@ import {NzListModule} from "ng-zorro-antd/list";
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzCardModule} from "ng-zorro-antd/card";
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 registerLocaleData(en);
 
@@ -43,33 +45,35 @@ registerLocaleData(en);
     LobbyComponent,
     LayoutComponent,
     TweetComponent,
-    TweetListComponent
+    TweetListComponent,
+    EditProfileComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NzFormModule,
-    NzInputModule,
-    ReactiveFormsModule,
-    NzButtonModule,
-    NzCheckboxModule,
-    NzSelectModule,
-    NzLayoutModule,
-    NzBreadCrumbModule,
-    NzMenuModule,
-    NzTypographyModule,
-    NzCommentModule,
-    NzAvatarModule,
-    NzToolTipModule,
-    NzIconModule,
-    NzListModule,
-    NzMessageModule,
-    NzDividerModule,
-    NzCardModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NzFormModule,
+        NzInputModule,
+        ReactiveFormsModule,
+        NzButtonModule,
+        NzCheckboxModule,
+        NzSelectModule,
+        NzLayoutModule,
+        NzBreadCrumbModule,
+        NzMenuModule,
+        NzTypographyModule,
+        NzCommentModule,
+        NzAvatarModule,
+        NzToolTipModule,
+        NzIconModule,
+        NzListModule,
+        NzMessageModule,
+        NzDividerModule,
+        NzCardModule,
+        NzDatePickerModule
+    ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}
   ],

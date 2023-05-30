@@ -5,6 +5,7 @@ import {PageRoutes} from "./_constants/page-routes";
 import {LobbyComponent} from "./lobby/lobby.component";
 import {RegisterComponent} from "./register/register.component";
 import {TweetListComponent} from "./tweet-list/tweet-list.component";
+import {EditProfileComponent} from "./profile/edit-profile/edit-profile.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: PageRoutes.register, component: RegisterComponent},
   {path: PageRoutes.lobby, component: LobbyComponent},
   {path: PageRoutes.tweets, component: TweetListComponent},
+  {path: PageRoutes.editProfile, component: EditProfileComponent},
   {path: '', redirectTo: `/${PageRoutes.login}`, pathMatch: 'prefix'},
 ];
 
