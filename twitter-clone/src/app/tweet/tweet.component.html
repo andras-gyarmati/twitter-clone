@@ -1,39 +1,26 @@
 <nz-card>
-    <nz-comment nzAuthor="Han Solo" [nzDatetime]="time">
+    <nz-comment [nzAuthor]="username" [nzDatetime]="postTime">
       <nz-avatar
         nz-comment-avatar
         nzIcon="user"
-        nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+        [nzSrc]="avatarUrl"
       ></nz-avatar>
       <nz-comment-content>
         <p>
-          We supply a series of design principles, practical patterns and high quality design resources (Sketch and
-          Axure), to help people create their product prototypes beautifully and efficiently.
+          {{ content }}
         </p>
       </nz-comment-content>
       <nz-comment-action>
-        <span
-          nz-tooltip
-          nzTitle="Like"
-          nz-icon
-          nzType="like"
-          [nzTheme]="likes > 0 ? 'twotone' : 'outline'"
-          (click)="like()"
-        ></span>
-        <span class="count like">{{ likes }}</span>
+        <button nz-button nzType="link" (click)="likeTweet()">
+          <i nz-icon nzType="heart" nzTheme="outline"></i> {{ likes }}
+        </button>
       </nz-comment-action>
       <nz-comment-action>
-        <span
-          nz-tooltip
-          nzTitle="Dislike"
-          nz-icon
-          nzType="dislike"
-          [nzTheme]="dislikes > 0 ? 'twotone' : 'outline'"
-          (click)="dislike()"
-        ></span>
-        <span class="count dislike">{{ dislikes }}</span>
+        <button nz-button nzType="link" (click)="retweet()">
+          <i nz-icon nzType="retweet" nzTheme="outline"></i> {{ retweets }}
+        </button>
       </nz-comment-action>
-      <nz-comment-action>Reply to</nz-comment-action>
     </nz-comment>
 </nz-card>
+
 

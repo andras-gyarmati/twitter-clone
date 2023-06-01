@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import { formatDistance } from 'date-fns';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tweet',
@@ -8,17 +6,19 @@ import { formatDistance } from 'date-fns';
   styleUrls: ['./tweet.component.css']
 })
 export class TweetComponent {
-  likes = 0;
-  dislikes = 0;
-  time = formatDistance(new Date(), new Date());
+  @Input() avatarUrl: string = '';
+  @Input() username: string = '';
+  @Input() postTime: string = '';
+  @Input() content: string = '';
+  @Input() likes: number = 0;
+  @Input() retweets: number = 0;
 
-  like(): void {
-    this.likes = 1;
-    this.dislikes = 0;
+  likeTweet() {
+    this.likes++;
   }
 
-  dislike(): void {
-    this.likes = 0;
-    this.dislikes = 1;
+  retweet() {
+    this.retweets++;
   }
 }
+
