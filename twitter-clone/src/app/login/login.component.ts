@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {ClientService} from "../_services/client.service";
+import {TweetService} from "../_services/tweet.service";
 import {RouterService} from "../_services/router.service";
 import {UserService} from "../_services/user.service";
 
@@ -12,10 +12,16 @@ import {UserService} from "../_services/user.service";
 export class LoginComponent implements OnInit {
   loginForm!: UntypedFormGroup;
 
+  constructor(private fb: UntypedFormBuilder,
+              private clientService: TweetService,
+              private routerService: RouterService,
+              private userService: UserService) {
+  }
+
   submitForm(): void {
     if (this.loginForm.valid) {
       console.log('submit', this.loginForm.value);
-      this.clientService.login().subscribe((response) => {
+      this.userService.login().subscribe((response) => {
         this.userService.store(response.token);
         this.routerService.routeToTweets();
       })
@@ -27,12 +33,6 @@ export class LoginComponent implements OnInit {
         }
       });
     }
-  }
-
-  constructor(private fb: UntypedFormBuilder,
-              private clientService: ClientService,
-              private routerService: RouterService,
-              private userService: UserService) {
   }
 
   ngOnInit(): void {

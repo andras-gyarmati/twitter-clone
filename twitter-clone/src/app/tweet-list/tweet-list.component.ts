@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {Tweet, TweetService} from "../_services/tweet.service";
 
 @Component({
   selector: 'app-tweet-list',
   templateUrl: './tweet-list.component.html'
 })
-export class TweetListComponent {
-  data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.'
-  ];
+export class TweetListComponent implements OnInit {
+  data: Tweet[] | undefined = [];
 
-  constructor(public msg: NzMessageService) {}
+
+  constructor(public msg: NzMessageService, private tweetService: TweetService) {
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.data = await this.tweetService.get();
+  }
 }
