@@ -6,7 +6,6 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {

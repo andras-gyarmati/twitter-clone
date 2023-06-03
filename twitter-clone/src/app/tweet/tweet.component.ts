@@ -11,14 +11,13 @@ export class TweetComponent {
   @Input() postTime: string = '';
   @Input() content: string = '';
   @Input() likes: number = 0;
-  @Input() retweets: number = 0;
+  @Input() replies: number = 0;
 
   likeTweet() {
     this.likes++;
   }
 
-  retweet() {
-    this.retweets++;
+  reply() {
+    this.replies++;
   }
 }
-

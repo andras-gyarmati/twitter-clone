@@ -5,10 +5,9 @@
     <app-tweet
       avatarUrl="{{item.authorProfilePicture}}"
       username="{{item.authorName}}"
-      postTime="{{item.createdAt}}"
+      postTime="{{item.createdAt | date:'short'}}"
       content="{{item.content}}">
     </app-tweet>
   </nz-list-item>
   <nz-list-footer>Footer</nz-list-footer>
 </nz-list>
-

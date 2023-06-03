@@ -5,7 +5,8 @@ import {Tweet, TweetService} from "../_services/tweet.service";
 
 @Component({
   selector: 'app-tweet-list',
-  templateUrl: './tweet-list.component.html'
+  templateUrl: './tweet-list.component.html',
+  styleUrls:['./tweet-list.component.css']
 })
 export class TweetListComponent implements OnInit {
   data: Tweet[] | undefined = [];

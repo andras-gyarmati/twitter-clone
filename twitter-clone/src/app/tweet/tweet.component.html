@@ -1,26 +1,24 @@
 <nz-card>
-    <nz-comment [nzAuthor]="username" [nzDatetime]="postTime">
-      <nz-avatar
-        nz-comment-avatar
-        nzIcon="user"
-        [nzSrc]="avatarUrl"
-      ></nz-avatar>
-      <nz-comment-content>
-        <p>
-          {{ content }}
-        </p>
-      </nz-comment-content>
-      <nz-comment-action>
-        <button nz-button nzType="link" (click)="likeTweet()">
-          <i nz-icon nzType="heart" nzTheme="outline"></i> {{ likes }}
-        </button>
-      </nz-comment-action>
-      <nz-comment-action>
-        <button nz-button nzType="link" (click)="retweet()">
-          <i nz-icon nzType="retweet" nzTheme="outline"></i> {{ retweets }}
-        </button>
-      </nz-comment-action>
-    </nz-comment>
+  <nz-comment [nzAuthor]="username" [nzDatetime]="postTime">
+    <nz-avatar
+      nz-comment-avatar
+      nzIcon="user"
+      [nzSrc]="avatarUrl"
+    ></nz-avatar>
+    <nz-comment-content>
+      <p>
+        {{ content }}
+      </p>
+    </nz-comment-content>
+    <nz-comment-action>
+      <button nz-button nzType="link" (click)="likeTweet()">
+        <i nz-icon nzType="heart" nzTheme="outline"></i> {{ likes }}
+      </button>
+    </nz-comment-action>
+    <nz-comment-action>
+      <button nz-button nzType="link" (click)="reply()">
+        <i nz-icon nzType="message" nzTheme="outline"></i> {{ replies }}
+      </button>
+    </nz-comment-action>
+  </nz-comment>
 </nz-card>
-
-
