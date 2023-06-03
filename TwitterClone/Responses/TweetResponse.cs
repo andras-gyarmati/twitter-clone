@@ -6,5 +6,7 @@ public class TweetResponse
 
     public string AuthorName { get; set; }
 
+    public string AuthorProfilePicture { get; set; }
+    
     public string Content { get; set; }
 }

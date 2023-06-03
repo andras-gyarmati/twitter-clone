@@ -3,11 +3,10 @@ import {HttpClient} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
 
 export class Tweet {
-  id!: number;
   createdAt!: Date;
-  authorId!: number;
+  authorName!: number;
+  authorProfilePicture!: string;
   content!: string;
-  isDeleted!: boolean;
 }
 
 @Injectable({

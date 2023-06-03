@@ -38,6 +38,7 @@ public class TweetsController : ControllerBase
         {
             CreatedAt = t.CreatedAt,
             AuthorName = t.Author.Username,
+            AuthorProfilePicture = t.Author.ProfilePicture,
             Content = t.IsDeleted ? "Deleted tweet" : t.Content
         }).ToList();
         return Ok(tweetResponses);
@@ -65,6 +66,7 @@ public class TweetsController : ControllerBase
         {
             CreatedAt = tweet.CreatedAt,
             AuthorName = tweet.Author.Username,
+            AuthorProfilePicture = tweet.Author.ProfilePicture,
             Content = tweet.IsDeleted ? "Deleted tweet" : tweet.Content
         };
         return Ok(tweetResponse);
