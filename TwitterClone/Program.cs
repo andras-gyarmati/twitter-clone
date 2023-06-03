@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using TwitterClone;
+
+namespace TwitterClone;
 
 public class Program
 {

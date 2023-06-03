@@ -90,7 +90,7 @@ public class TweetsController : ControllerBase
         }
         var tweet = new Tweet
         {
-            CreatedAt = request.CreatedAt,
+            CreatedAt = DateTime.UtcNow,
             AuthorId = author.Id,
             Content = request.Content,
             IsDeleted = false
