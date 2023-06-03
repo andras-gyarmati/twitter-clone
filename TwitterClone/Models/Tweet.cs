@@ -6,10 +6,17 @@ namespace TwitterClone.Models;
 [Table("Tweet")]
 public class Tweet
 {
-    [Key] public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
+
     public DateOnly CreatedAt { get; set; }
+
     public int AuthorId { get; set; }
-    [MaxLength(280)] public string Content { get; set; }
+
+    [MaxLength(280)]
+    public string Content { get; set; }
+
     public bool IsDeleted { get; set; }
+
     public User Author { get; set; }
 }
