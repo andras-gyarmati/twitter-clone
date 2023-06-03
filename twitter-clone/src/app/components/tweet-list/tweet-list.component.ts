@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {Tweet, TweetService} from "../_services/tweet.service";
+import {Tweet, TweetService} from "../../_services/tweet.service";
 
 @Component({
   selector: 'app-tweet-list',

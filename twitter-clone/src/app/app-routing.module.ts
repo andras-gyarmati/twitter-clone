@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from "./components/login/login.component";
 import {PageRoutes} from "./_constants/page-routes";
-import {LobbyComponent} from "./lobby/lobby.component";
-import {RegisterComponent} from "./register/register.component";
-import {TweetListComponent} from "./tweet-list/tweet-list.component";
-import {EditProfileComponent} from "./profile/edit-profile/edit-profile.component";
+import {LobbyComponent} from "./components/lobby/lobby.component";
+import {RegisterComponent} from "./components/register/register.component";
+import {TweetListComponent} from "./components/tweet-list/tweet-list.component";
+import {EditProfileComponent} from "./components/profile/edit-profile/edit-profile.component";
 
 
 const routes: Routes = [

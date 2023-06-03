@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {PageRoutes} from "../_constants/page-routes";
 
 @Component({

@@ -1,54 +1,52 @@
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
 
-      .logo {
-        width: 120px;
-        height: 31px;
-        background: rgba(255, 255, 255, 0.2);
-        margin: 16px 24px 16px 0;
-        float: left;
-      }
+[nz-menu] {
+  line-height: 64px;
+}
 
-      [nz-menu] {
-        line-height: 64px;
-      }
+nz-breadcrumb {
+  margin: 16px 0;
+}
 
-      nz-breadcrumb {
-        margin: 16px 0;
-      }
+nz-content {
+  padding: 0 50px;
+}
 
-      nz-content {
-        padding: 0 50px;
-      }
+nz-footer {
+  text-align: center;
+}
 
-      nz-footer {
-        text-align: center;
-      }
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
 
-      .inner-content {
-        background: #fff;
-        padding: 24px;
-        min-height: 280px;
-      }
+.content {
+  margin-top: 40px;
+}
 
-      .content{
-        margin-top: 40px;
-      }
+.right-menu {
+  display: flex;
+  margin-right: auto;
+}
 
-      .right-menu{
-        display: flex;
-        margin-right: auto;
-      }
+nz-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-      nz-layout {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+nz-content {
+  flex: 1 0 auto;
+}
 
-      nz-content {
-        flex: 1 0 auto;
-      }
-
-      nz-footer {
-        flex-shrink: 0;
-      }
-
+nz-footer {
+  flex-shrink: 0;
+}

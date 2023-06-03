@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {LoginComponent} from './login/login.component';
-import {RegisterComponent} from './register/register.component';
-import {LobbyComponent} from './lobby/lobby.component';
+import {LoginComponent} from './components/login/login.component';
+import {RegisterComponent} from './components/register/register.component';
+import {LobbyComponent} from './components/lobby/lobby.component';
 import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -17,24 +16,26 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzSelectModule} from "ng-zorro-antd/select";
-import { LayoutComponent } from './layout/layout.component';
+import {LayoutComponent} from './layout/layout.component';
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzMenuModule} from "ng-zorro-antd/menu";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
-import { TweetComponent } from './tweet/tweet.component';
+import {TweetComponent} from './components/tweet/tweet.component';
 import {NzCommentModule} from "ng-zorro-antd/comment";
 import {NzAvatarModule} from "ng-zorro-antd/avatar";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import { TweetListComponent } from './tweet-list/tweet-list.component';
+import {TweetListComponent} from './components/tweet-list/tweet-list.component';
 import {NzListModule} from "ng-zorro-antd/list";
-import { NzMessageModule } from 'ng-zorro-antd/message';
+import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzCardModule} from "ng-zorro-antd/card";
-import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import {EditProfileComponent} from './components/profile/edit-profile/edit-profile.component';
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzTagModule} from "ng-zorro-antd/tag";
+import {NewTweetComponent} from './components/new-tweet/new-tweet.component';
+import {NzResizableModule} from "ng-zorro-antd/resizable";
 
 registerLocaleData(en);
 
@@ -47,7 +48,8 @@ registerLocaleData(en);
     LayoutComponent,
     TweetComponent,
     TweetListComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    NewTweetComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,8 @@ registerLocaleData(en);
     NzDividerModule,
     NzCardModule,
     NzDatePickerModule,
-    NzTagModule
+    NzTagModule,
+    NzResizableModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}

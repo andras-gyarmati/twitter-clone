@@ -17,7 +17,7 @@ public class TwitterCloneDbContext : DbContext
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
         DbPath = Path.Join(path, "twitter-clone.db");
-        Console.WriteLine($"DbPath: {DbPath}");
+        // Console.WriteLine($"DbPath: {DbPath}");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>

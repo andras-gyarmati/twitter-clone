@@ -1,6 +1,12 @@
 <h3 [ngStyle]="{ margin: '16px 0' }">Tweets</h3>
 <nz-list nzBordered nzSize="small">
-  <nz-list-header>Header new tweet</nz-list-header>
+  <nz-list-header>
+    <!--todo logged in user-->
+    <!--[avatarUrl]=""-->
+    <app-new-tweet
+    [username]="'andris'"
+    ></app-new-tweet>
+  </nz-list-header>
   <nz-list-item *ngFor="let item of data">
     <app-tweet
       avatarUrl="{{item.authorProfilePicture}}"

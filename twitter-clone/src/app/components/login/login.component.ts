@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {TweetService} from "../_services/tweet.service";
-import {RouterService} from "../_services/router.service";
-import {UserService} from "../_services/user.service";
+import {TweetService} from "../../_services/tweet.service";
+import {RouterService} from "../../_services/router.service";
+import {UserService} from "../../_services/user.service";
 
 @Component({
   selector: 'app-login',
