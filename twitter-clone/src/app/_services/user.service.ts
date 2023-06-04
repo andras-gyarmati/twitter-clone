@@ -1,12 +1,19 @@
 import {Injectable} from '@angular/core';
 import {StorageKeys} from "../_constants/storage-keys";
-import {delay, Observable, of} from "rxjs";
+import {delay, lastValueFrom, Observable, of} from "rxjs";
+import {Tweet} from "./tweet.service";
+import {HttpClient} from "@angular/common/http";
+
+export class LoginRequest {
+  userName!: string;
+  password!: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
 
   get(): string | null {
@@ -21,7 +28,9 @@ export class UserService {
     localStorage.setItem(StorageKeys.session, token);
   }
 
-  login(): Observable<{ token: string }> {
-    return of({token: 'my_token'}).pipe(delay(1000))
+  async login(loginRequest: LoginRequest): Promise<any> {
+    // return of({token: 'my_token'}).pipe(delay(1000))
+    const tocken = await lastValueFrom(this.httpClient.post<any>(`http://localhost:5017/users/login`, loginRequest));
+    console.log(tocken);
   }
 }

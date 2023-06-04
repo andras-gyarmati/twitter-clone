@@ -1,38 +1,18 @@
+<div nz-row>
+  <div nz-col nzSpan="8"></div>
+  <div nz-col nzSpan="12"><h1 nz-typography>Edit profile</h1></div>
+</div>
 
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="email" >E-mail</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
           <input nz-input formControlName="email" id="email" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
-          <input
-            nz-input
-            type="password"
-            id="password"
-            formControlName="password"
-            (ngModelChange)="updateConfirmValidator()"
-          />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
-          <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
-          <ng-template #errorTpl let-control>
-            <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
-            <ng-container *ngIf="control.hasError('confirm')">
-              Two passwords that you enter is inconsistent!
-            </ng-container>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
         <nz-form-label
-          [nzSm]="6"
+          [nzSm]="8"
           [nzXs]="24"
           nzFor="nickname"
           nzRequired
@@ -40,14 +20,14 @@
         >
           <span>Nickname</span>
         </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your nickname!">
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input your nickname!">
           <input nz-input id="nickname" formControlName="nickname" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="phoneNumber" >Phone Number</nz-form-label>
         <nz-form-control
-          [nzSm]="14"
+          [nzSm]="16"
           [nzXs]="24"
           [nzValidateStatus]="validateForm.controls['phoneNumber']"
           nzErrorTip="Please input your phone number!"
@@ -64,23 +44,47 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired>Website</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input website!">
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="website" >Website</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="Please input website!">
           <input nz-input id="website" formControlName="website" placeholder="website" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Birthdate</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-form-label [nzSm]="8" [nzXs]="24" >Note</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <textarea rows="8" nz-input [(ngModel)]="inputValue"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" >Birthdate</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
           <nz-date-picker formControlName="birthdate"></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" >Image</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <nz-upload
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+
+            (nzChange)="handleChange($event)"
+          >
+            <button nz-button>
+              <span nz-icon nzType="upload"></span>
+              Click to Upload
+            </button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
       <nz-form-item nz-row class="register-area">
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button nz-button nzType="primary">Save changes</button>
+        <nz-form-control [nzSpan]="16" [nzOffset]="8">
+          <button nz-button nzType="primary">
+            <span nz-icon nzType="save"></span>
+            Save changes
+          </button>
         </nz-form-control>
-        <nz-form-control >
-      <button nz-button nzType="primary" >Change password</button>
-        </nz-form-control>
+<!--        <nz-form-control >-->
+<!--      <button nz-button nzType="primary" >Change password</button>-->
+<!--        </nz-form-control>-->
       </nz-form-item>
     </form>

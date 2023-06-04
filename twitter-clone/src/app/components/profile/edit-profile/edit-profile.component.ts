@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import {NzUploadChangeParam} from "ng-zorro-antd/upload";
 
 @Component({
   selector: 'app-edit-profile',
@@ -41,6 +42,7 @@ export class EditProfileComponent implements OnInit {
     }
     return {};
   };
+  inputValue: string = "";
 
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
@@ -61,5 +63,9 @@ export class EditProfileComponent implements OnInit {
       agree: [false],
       birthdate: [null],
     });
+  }
+
+  handleChange($event: NzUploadChangeParam) {
+
   }
 }

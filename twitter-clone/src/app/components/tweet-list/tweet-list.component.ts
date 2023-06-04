@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Tweet, TweetService} from "../../_services/tweet.service";
 
@@ -17,5 +16,6 @@ export class TweetListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.data = await this.tweetService.get();
+    console.log(this.data)
   }
 }

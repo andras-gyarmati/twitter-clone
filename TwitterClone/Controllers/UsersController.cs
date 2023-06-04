@@ -127,4 +127,30 @@ public class UsersController : ControllerBase
         await _context.SaveChangesAsync();
         return new OkResult();
     }
+    
+    /// <summary>
+    ///     Login user
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.UserName);
+        if (user == null)
+        {
+            return new UnauthorizedResult();
+        }
+        return new OkObjectResult("hello");
+    }
+}
+
+public class LoginRequest
+{
+    public string UserName { get; set; }
+    public string Password { get; set; }
 }

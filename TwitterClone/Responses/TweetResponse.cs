@@ -2,6 +2,8 @@ namespace TwitterClone.Responses;
 
 public class TweetResponse
 {
+    public int Id { get; set; }
+    
     public DateTime CreatedAt { get; set; }
 
     public string AuthorName { get; set; }

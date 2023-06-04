@@ -36,6 +36,7 @@ public class TweetsController : ControllerBase
             .ToListAsync();
         var tweetResponses = tweets.Select(t => new TweetResponse
         {
+            Id = t.Id,
             CreatedAt = t.CreatedAt,
             AuthorName = t.Author.Username,
             AuthorProfilePicture = t.Author.ProfilePicture,

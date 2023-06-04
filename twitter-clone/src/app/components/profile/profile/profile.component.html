@@ -1,0 +1,27 @@
+<nz-card [nzBordered]="false" nzTitle="UserName" [nzExtra]="extraTemplate">
+    <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
+  <nz-descriptions nzTitle="User info" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
+    <nz-descriptions-item nzTitle="UserName">Zhou Maomao</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="E-mail">jancsi@gmail.com</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Joined">2023.03.11.</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Website">valami.hu</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Following">12</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Followers">33</nz-descriptions-item>
+  </nz-descriptions>
+  <nz-descriptions [nzColumn]="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
+    <nz-descriptions-item nzTitle="Note">
+      Valami szipiszupi özenet magamról másoknak
+    </nz-descriptions-item>
+  </nz-descriptions>
+  <nz-button-group>
+    <button nz-button nzType="primary">Follow</button>
+    <button nz-button nzType="primary" nzDanger>Unfollow</button>
+  </nz-button-group>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <a href="{{PageRoutes.editProfile}}" >Edit Profile</a>
+</ng-template>
+
+<app-tweet-list></app-tweet-list>
+<!--    TODO: leszúrni a saját tweeteket-->

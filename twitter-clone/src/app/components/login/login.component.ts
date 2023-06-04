@@ -18,13 +18,11 @@ export class LoginComponent implements OnInit {
               private userService: UserService) {
   }
 
-  submitForm(): void {
+  async submitForm(): Promise<void> {
     if (this.loginForm.valid) {
       console.log('submit', this.loginForm.value);
-      this.userService.login().subscribe((response) => {
-        this.userService.store(response.token);
-        this.routerService.routeToTweets();
-      })
+      await this.userService.login({userName: "andris", password: "Password123"});
+      this.routerService.routeToTweets();
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
         if (control.invalid) {

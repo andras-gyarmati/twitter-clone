@@ -1,4 +1,4 @@
 export class StorageKeys {
-  static session: string;
+  static session: string = "session";
 
 }
