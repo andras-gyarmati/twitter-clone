@@ -1,19 +1,21 @@
 <nz-layout>
   <nz-header>
-    <div class="logo"></div>
     <div nz-row>
       <div nz-col nzSpan="8">
         <ul nz-menu nzTheme="dark" nzMode="horizontal">
-          <li nz-menu-item><a href="/tweets">Tweets</a></li>
-          <li nz-menu-item>nav 2</li>
-          <li nz-menu-item>nav 3</li>
+          <li nz-menu-item>
+            <a href="/tweets" class="menu-item">
+              <img class="logo" src="assets/logo.png">
+              <span class="menu-text">Tweets</span>
+            </a>
+          </li>
         </ul>
       </div>
       <nz-row nz-col nzSpan="8" nzOffset="8" nzJustify="end" class="right-menu">
         <ul nz-menu nzTheme="dark" nzMode="horizontal">
-          <li nz-menu-item><a href="{{PageRoutes.login}}">Login</a></li>
-          <li nz-menu-item><a href="{{PageRoutes.register}}">Registration</a></li>
-          <li nz-menu-item><a href="{{PageRoutes.profile}}">Profile</a></li>
+          <li nz-menu-item><a href="{{PageRoutes.login}}"><span nz-icon nzType="login"></span> Login</a></li>
+          <li nz-menu-item><a href="{{PageRoutes.register}}"><span nz-icon nzType="lock"></span> Registration</a></li>
+          <li nz-menu-item><a href="{{PageRoutes.profile}}"><span nz-icon nzType="user"></span> Profile</a></li>
         </ul>
       </nz-row>
     </div>

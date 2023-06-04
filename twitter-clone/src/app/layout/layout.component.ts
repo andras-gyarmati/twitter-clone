@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {PageRoutes} from "../_constants/page-routes";
+import {RouterService} from "../_services/router.service"
 
 @Component({
   selector: 'app-layout',
@@ -8,4 +9,5 @@ import {PageRoutes} from "../_constants/page-routes";
 })
 export class LayoutComponent {
   protected readonly PageRoutes = PageRoutes;
+  protected readonly RouterService = RouterService;
 }

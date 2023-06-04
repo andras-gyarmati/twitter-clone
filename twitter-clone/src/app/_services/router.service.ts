@@ -13,4 +13,5 @@ export class RouterService {
   routeToTweets(): void {
     this.router.navigateByUrl(`/${PageRoutes.tweets}`);
   }
+
 }
