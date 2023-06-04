@@ -1,21 +1,21 @@
 <nz-card>
-  <nz-comment [nzAuthor]="username" [nzDatetime]="postTime">
+  <nz-comment [nzAuthor]="data.authorName" [nzDatetime]="(data.createdAt | date) ?? ''">
     <nz-avatar
       nz-comment-avatar
       nzIcon="user"
-      [nzSrc]="avatarUrl"
+      [nzSrc]="data.authorProfilePicture"
     ></nz-avatar>
     <nz-comment-content>
-      <p>{{ content }}</p>
+      <p>{{ data.content }}</p>
     </nz-comment-content>
     <nz-comment-action>
       <button nz-button nzType="link" (click)="likeTweet()">
-        <i nz-icon nzType="heart" nzTheme="outline"></i> {{ likes }}
+        <i nz-icon nzType="heart" nzTheme="outline"></i> {{ data.likeCount }}
       </button>
     </nz-comment-action>
     <nz-comment-action>
       <button nz-button nzType="link" (click)="reply()">
-        <i nz-icon nzType="message" nzTheme="outline"></i> {{ replies }}
+        <i nz-icon nzType="message" nzTheme="outline"></i> {{ data.replyCount }}
       </button>
     </nz-comment-action>
   </nz-comment>

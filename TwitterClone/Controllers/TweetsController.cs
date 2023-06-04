@@ -86,7 +86,7 @@ public class TweetsController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == request.AuthorName);
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == "andris"); // todo userContext
         if (author == null)
         {
             return new BadRequestObjectResult("Author not found");
@@ -123,5 +123,37 @@ public class TweetsController : ControllerBase
         _context.Tweets.Update(existingTweet);
         await _context.SaveChangesAsync();
         return Ok();
+    }
+
+    /// <summary>
+    ///     Reply to tweet
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost("{id:int}/reply")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> ReplyTo(int id, CreateTweetRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == "andris"); // todo userContext
+        if (author == null)
+        {
+            return new BadRequestObjectResult("Author not found");
+        }
+        var tweet = new Tweet
+        {
+            CreatedAt = DateTime.UtcNow,
+            AuthorId = author.Id,
+            Content = request.Content,
+            IsDeleted = false,
+            InReplyToId = id
+        };
+        _context.Tweets.Add(tweet);
+        await _context.SaveChangesAsync();
+        return Ok(tweet.Id);
     }
 }

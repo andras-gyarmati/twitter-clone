@@ -22,5 +22,4 @@
   <a *ngIf="myProfile()" href="{{PageRoutes.editProfile}}">Edit Profile</a>
 </ng-template>
 
-<app-tweet-list></app-tweet-list>
-<!--    TODO: leszúrni a saját tweeteket-->
+<app-tweet-list [data]="tweets"></app-tweet-list>

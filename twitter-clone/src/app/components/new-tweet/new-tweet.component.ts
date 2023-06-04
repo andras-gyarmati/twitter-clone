@@ -19,7 +19,7 @@ export class NewTweetComponent {
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';
-    await this.tweetService.post({authorName: this.username, content: content});
+    await this.tweetService.post({content: content});
     this.submitting = false;
   }
 }

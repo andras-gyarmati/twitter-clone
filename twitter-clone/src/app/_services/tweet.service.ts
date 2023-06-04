@@ -29,7 +29,23 @@ export class TweetService {
     return [];
   }
 
+  async getUsersTweets(username: string): Promise<Tweet[]> {
+    try {
+      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/users/${username}/tweets`, {}));
+    } catch (e) {
+      if (e instanceof HttpErrorResponse && e?.error?.status === 401) {
+        console.log("invalid credentials");
+        this.userService.remove();
+      }
+    }
+    return [];
+  }
+
   async post(tweet: CreateTweetRequest): Promise<any> {
     return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/`, tweet));
+  }
+
+  async reply(replyToTweetId: number, tweet: CreateTweetRequest): Promise<any> {
+    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/${replyToTweetId}/reply`, tweet));
   }
 }

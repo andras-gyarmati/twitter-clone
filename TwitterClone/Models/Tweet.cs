@@ -19,4 +19,10 @@ public class Tweet
     public bool IsDeleted { get; set; }
 
     public User Author { get; set; }
+
+    public int? InReplyToId { get; set; }
+
+    public Tweet InReplyTo { get; set; }
+
+    public List<Tweet> Replies { get; set; }
 }

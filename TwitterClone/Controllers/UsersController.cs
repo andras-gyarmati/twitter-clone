@@ -14,7 +14,7 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly TwitterCloneDbContext _context;
 
-    public static User LoggedInUser { get; set; }
+    public static User LoggedInUser { get; set; } // todo userContext
 
     public UsersController(ILogger<UsersController> logger, TwitterCloneDbContext context)
     {
@@ -166,6 +166,7 @@ public class UsersController : ControllerBase
         {
             return new NotFoundResult();
         }
+        LoggedInUser = _context.Users.FirstOrDefault(u => u.Username == "andris"); // todo userContext
         var follow = new UserUser
         {
             Follower = LoggedInUser,
@@ -175,5 +176,31 @@ public class UsersController : ControllerBase
         await _context.UserUsers.AddAsync(follow);
         await _context.SaveChangesAsync();
         return new OkResult();
+    }
+
+    /// <summary>
+    ///     Get all tweets from user
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("{username}/tweets")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(List<TweetResponse>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TweetResponse>))]
+    public async Task<IActionResult> GetTweets(string username)
+    {
+        var tweets = await _context.Tweets
+            .Include(x => x.Author)
+            .Where(t => !t.IsDeleted && t.Author.Username == username)
+            .Take(10) // todo sort and use date
+            .ToListAsync();
+        var tweetResponses = tweets.Select(t => new TweetResponse
+        {
+            Id = t.Id,
+            CreatedAt = t.CreatedAt,
+            AuthorName = t.Author.Username,
+            AuthorProfilePicture = t.Author.ProfilePicture,
+            Content = t.IsDeleted ? "Deleted tweet" : t.Content
+        }).ToList();
+        return Ok(tweetResponses);
     }
 }

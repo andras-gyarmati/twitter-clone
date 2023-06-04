@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {TweetService} from "../../_services/tweet.service";
+import {Tweet} from "../../models/tweet";
+import {UserService} from "../../_services/user.service";
 
 @Component({
   selector: 'app-tweet',
@@ -6,18 +9,17 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./tweet.component.css']
 })
 export class TweetComponent {
-  @Input() avatarUrl: string = '';
-  @Input() username: string = '';
-  @Input() postTime: string = '';
-  @Input() content: string = '';
-  @Input() likes: number = 0;
-  @Input() replies: number = 0;
+  @Input() data: Tweet = {} as Tweet;
 
-  likeTweet() {
-    this.likes++;
+  constructor(private tweetService: TweetService, private userService: UserService) {
   }
 
-  reply() {
-    this.replies++;
+  likeTweet() {
+    this.data.likeCount++;
+  }
+
+  async reply() {
+    // todo open modal
+    await this.tweetService.reply(this.data.id, {content: "test"});
   }
 }
