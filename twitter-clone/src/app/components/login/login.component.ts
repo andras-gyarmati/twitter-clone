@@ -20,9 +20,13 @@ export class LoginComponent implements OnInit {
 
   async submitForm(): Promise<void> {
     if (this.loginForm.valid) {
-      console.log('submit', this.loginForm.value);
-      await this.userService.login({userName: "andris", password: "Password123"});
-      this.routerService.routeToTweets();
+      try {
+        await this.userService.login(this.loginForm.value);
+        this.routerService.routeToTweets();
+      } catch (e) {
+        console.log("error:", e);
+        // todo show error message
+      }
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
         if (control.invalid) {

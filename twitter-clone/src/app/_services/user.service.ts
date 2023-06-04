@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
 import {StorageKeys} from "../_constants/storage-keys";
-import {delay, lastValueFrom, Observable, of} from "rxjs";
-import {Tweet} from "./tweet.service";
+import {lastValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-
-export class LoginRequest {
-  userName!: string;
-  password!: string;
-}
+import {environment} from "../../environments/environment";
+import {LoginRequest} from "../models/loginRequest";
+import {PageRoutes} from "../_constants/page-routes";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
+  }
+
+  private getPath() {
+    return 'tweets';
   }
 
   get(): string | null {
@@ -22,6 +24,7 @@ export class UserService {
 
   remove(): void {
     localStorage.removeItem(StorageKeys.session);
+    this.router.navigateByUrl(`/${PageRoutes.login}`);
   }
 
   store(token: string): void {
@@ -29,9 +32,7 @@ export class UserService {
   }
 
   async login(loginRequest: LoginRequest): Promise<any> {
-    // return of({token: 'my_token'}).pipe(delay(1000))
-    const token = await lastValueFrom(this.httpClient.post<any>(`http://localhost:5017/users/login`, loginRequest));
-    console.log(token.message);
+    const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/users/login`, loginRequest));
     this.store(token.message);
   }
 }

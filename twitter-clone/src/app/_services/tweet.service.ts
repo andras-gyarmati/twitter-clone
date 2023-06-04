@@ -1,36 +1,35 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
-
-export class Tweet {
-  createdAt!: Date;
-  authorName!: string;
-  authorProfilePicture!: string;
-  content!: string;
-}
-
-export class CreateTweetRequest {
-  authorName!: string; // todo remove and use logged in user
-  content!: string;
-}
+import {environment} from "../../environments/environment";
+import {Tweet} from "../models/tweet";
+import {CreateTweetRequest} from "../models/createTweetRequest";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TweetService {
-
-  constructor(private httpClient: HttpClient) {
-  }
-
-  async get(): Promise<Tweet[] | undefined> {
-    return await lastValueFrom(this.httpClient.get<Tweet[]>(`http://localhost:5017/${this.getPath()}/`, {}));
-  }
-
-  async post(tweet: CreateTweetRequest): Promise<any> {
-    return await lastValueFrom(this.httpClient.post<Tweet>(`http://localhost:5017/${this.getPath()}/`, tweet));
+  constructor(private httpClient: HttpClient, private userService: UserService) {
   }
 
   private getPath() {
-    return 'tweets'
+    return 'tweets';
+  }
+
+  async get(): Promise<Tweet[]> {
+    try {
+      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/${this.getPath()}/`, {}));
+    } catch (e) {
+      if (e instanceof HttpErrorResponse && e?.error?.status === 401) {
+        console.log("invalid credentials");
+        this.userService.remove();
+      }
+    }
+    return [];
+  }
+
+  async post(tweet: CreateTweetRequest): Promise<any> {
+    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/`, tweet));
   }
 }

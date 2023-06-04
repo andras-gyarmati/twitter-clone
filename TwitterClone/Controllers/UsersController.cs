@@ -14,10 +14,13 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly TwitterCloneDbContext _context;
 
+    public static User LoggedInUser { get; set; }
+
     public UsersController(ILogger<UsersController> logger, TwitterCloneDbContext context)
     {
         _logger = logger;
         _context = context;
+        LoggedInUser = new User();
     }
 
     /// <summary>
@@ -127,11 +130,11 @@ public class UsersController : ControllerBase
         await _context.SaveChangesAsync();
         return new OkResult();
     }
-    
+
     /// <summary>
     ///     Login user
     /// </summary>
-    /// <param name="username"></param>
+    /// <param name="loginRequest"></param>
     /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
@@ -141,7 +144,7 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.UserName);
-        if (user == null)
+        if (user == null || user.Password != loginRequest.Password.GetHash())
         {
             return new UnauthorizedResult();
         }
@@ -152,5 +155,6 @@ public class UsersController : ControllerBase
 public class LoginRequest
 {
     public string UserName { get; set; }
+
     public string Password { get; set; }
 }

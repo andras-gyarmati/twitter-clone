@@ -1,10 +1,10 @@
 <h3 [ngStyle]="{ margin: '16px 0' }">Tweets</h3>
-<nz-list >
+<nz-list>
   <nz-list-header>
     <!--todo logged in user-->
     <!--[avatarUrl]=""-->
     <app-new-tweet *ngIf="canCreateNewPost()"
-    [username]="'andris'"
+                   [username]="'andris'"
     ></app-new-tweet>
     <!--    TODO: csak akkor legyen itt, a tweets oldalom vagyunk...-->
   </nz-list-header>
@@ -17,8 +17,8 @@
     </app-tweet>
   </nz-list-item>
   <nz-list-footer>
-    <button nz-button nzType="primary">Add more tweets</button>
-<!--    TODO: csak akkor legyen itt, ha van még tweet...-->
+    <button nz-button nzType="primary">Load more tweets</button>
+    <!--    TODO: csak akkor legyen itt, ha van még tweet...-->
   </nz-list-footer>
 </nz-list>
 
