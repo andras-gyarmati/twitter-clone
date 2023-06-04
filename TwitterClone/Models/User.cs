@@ -27,4 +27,8 @@ public class User
     public string ProfilePicture { get; set; }
 
     public List<Tweet> Tweets { get; set; }
+
+    public List<UserUser> Following { get; set; }
+
+    public List<UserUser> Followers { get; set; }
 }

@@ -149,11 +149,31 @@ public class UsersController : ControllerBase
         }
         return Ok(new { message = "hello" });
     }
-}
 
-public class LoginRequest
-{
-    public string UserName { get; set; }
-
-    public string Password { get; set; }
+    /// <summary>
+    ///     Follow user
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    [HttpPost("follow/{username}")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    public async Task<IActionResult> Follow(string username)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (user == null)
+        {
+            return new NotFoundResult();
+        }
+        var follow = new UserUser
+        {
+            Follower = LoggedInUser,
+            Followed = user,
+            FollowDate = DateTime.UtcNow
+        };
+        await _context.UserUsers.AddAsync(follow);
+        await _context.SaveChangesAsync();
+        return new OkResult();
+    }
 }
