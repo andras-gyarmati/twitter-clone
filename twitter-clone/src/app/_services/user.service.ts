@@ -12,7 +12,9 @@ import {User} from "../models/user";
   providedIn: 'root'
 })
 export class UserService {
+  public isLoggedIn: boolean = false;
   constructor(private httpClient: HttpClient, private router: Router) {
+    this.isLoggedIn = this.get() !== null;
   }
 
   private getPath() {
@@ -31,15 +33,17 @@ export class UserService {
     localStorage.removeItem(StorageKeys.session);
     localStorage.removeItem(StorageKeys.loggedInUser);
     this.router.navigateByUrl(`/${PageRoutes.login}`);
+    this.isLoggedIn = false;
   }
 
   store(token: string): void {
     localStorage.setItem(StorageKeys.session, token);
+    this.isLoggedIn = true;
   }
 
   async login(loginRequest: LoginRequest): Promise<any> {
     const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/login`, loginRequest));
-    this.store(token.message);
+    this.store(token.token);
     const loggedInUser = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${loginRequest.username}`));
     localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));
   }

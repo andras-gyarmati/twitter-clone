@@ -13,5 +13,8 @@ export class RouterService {
   routeToTweets(): void {
     this.router.navigateByUrl(`/${PageRoutes.tweets}`);
   }
+  routeToLogin(): void {
+    this.router.navigateByUrl(`/${PageRoutes.login}`);
+  }
 
 }

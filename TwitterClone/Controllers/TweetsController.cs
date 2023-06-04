@@ -40,7 +40,8 @@ public class TweetsController : ControllerBase
             CreatedAt = t.CreatedAt,
             AuthorName = t.Author.Username,
             AuthorProfilePicture = t.Author.ProfilePicture,
-            Content = t.IsDeleted ? "Deleted tweet" : t.Content
+            Content = t.IsDeleted ? "Deleted tweet" : t.Content,
+            LikeCount = t.LikeCount,
         }).ToList();
         return Ok(tweetResponses);
     }

@@ -25,4 +25,6 @@ public class Tweet
     public Tweet InReplyTo { get; set; }
 
     public List<Tweet> Replies { get; set; }
+    
+    public int LikeCount { get; set; }
 }

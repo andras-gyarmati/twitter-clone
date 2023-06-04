@@ -15,6 +15,6 @@ export class TweetListComponent {
   }
 
   canCreateNewPost() {
-    return !!this.userService.get();
+    return !this.userService.isLoggedIn;
   }
 }

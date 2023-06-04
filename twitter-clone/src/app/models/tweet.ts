@@ -4,6 +4,6 @@ export class Tweet {
   authorName!: string;
   authorProfilePicture!: string;
   content!: string;
-  likeCount!: number;
-  replyCount!: number;
+  likeCount: number = 0;
+  replyCount: number = 0;
 }

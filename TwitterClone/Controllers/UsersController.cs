@@ -147,7 +147,7 @@ public class UsersController : ControllerBase
         {
             return new UnauthorizedResult();
         }
-        return Ok(new { message = "hello" });
+        return Ok(new { token = "hello" });
     }
 
     /// <summary>
