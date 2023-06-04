@@ -35,8 +35,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(string username)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Username == username);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
             return new NotFoundResult();

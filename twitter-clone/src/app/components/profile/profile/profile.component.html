@@ -1,27 +1,26 @@
 <nz-card [nzBordered]="false" nzTitle="UserName" [nzExtra]="extraTemplate">
-    <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
+  <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="userService.getLoggedInUser()?.profilePicture ?? ''"></nz-avatar>
   <nz-descriptions nzTitle="User info" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
-    <nz-descriptions-item nzTitle="UserName">Zhou Maomao</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="E-mail">jancsi@gmail.com</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Joined">2023.03.11.</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Website">valami.hu</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Following">12</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Followers">33</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="UserName">{{userService.getLoggedInUser()?.username}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="E-mail">{{userService.getLoggedInUser()?.email}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Joined">todo</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Following">todo</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Followers">todo</nz-descriptions-item>
   </nz-descriptions>
   <nz-descriptions [nzColumn]="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
-    <nz-descriptions-item nzTitle="Note">
-      Valami szipiszupi özenet magamról másoknak
+    <nz-descriptions-item nzTitle="Bio">
+      {{userService.getLoggedInUser()?.bio}}
     </nz-descriptions-item>
   </nz-descriptions>
   <nz-button-group>
     <button *ngIf="isFollowed" (click)="unFollowed()" nz-button nzType="primary">Follow</button>
-    <button *ngIf="!isFollowed" (click)="followed()"  nz-button nzType="primary" nzDanger>Unfollow</button>
+    <button *ngIf="!isFollowed" (click)="followed()" nz-button nzType="primary" nzDanger>Unfollow</button>
   </nz-button-group>
 </nz-card>
 
 <ng-template #extraTemplate>
-  <a *ngIf="myProfile()" href="{{PageRoutes.editProfile}}" >Edit Profile</a>
+  <a *ngIf="myProfile()" href="{{PageRoutes.editProfile}}">Edit Profile</a>
 </ng-template>
 
-<app-tweet-list userName="Béla"></app-tweet-list>
+<app-tweet-list></app-tweet-list>
 <!--    TODO: leszúrni a saját tweeteket-->

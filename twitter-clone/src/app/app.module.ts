@@ -39,6 +39,7 @@ import {NzResizableModule} from "ng-zorro-antd/resizable";
 import { ProfileComponent } from './components/profile/profile/profile.component';
 import {NzDescriptionsModule} from "ng-zorro-antd/descriptions";
 import {NzUploadModule} from "ng-zorro-antd/upload";
+import { FeedComponent } from './components/feed/feed.component';
 
 registerLocaleData(en);
 
@@ -54,6 +55,7 @@ registerLocaleData(en);
     EditProfileComponent,
     NewTweetComponent,
     ProfileComponent,
+    FeedComponent,
   ],
   imports: [
     BrowserModule,
