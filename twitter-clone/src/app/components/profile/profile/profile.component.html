@@ -14,14 +14,14 @@
     </nz-descriptions-item>
   </nz-descriptions>
   <nz-button-group>
-    <button nz-button nzType="primary">Follow</button>
-    <button nz-button nzType="primary" nzDanger>Unfollow</button>
+    <button *ngIf="isFollowed" (click)="unFollowed()" nz-button nzType="primary">Follow</button>
+    <button *ngIf="!isFollowed" (click)="followed()"  nz-button nzType="primary" nzDanger>Unfollow</button>
   </nz-button-group>
 </nz-card>
 
 <ng-template #extraTemplate>
-  <a href="{{PageRoutes.editProfile}}" >Edit Profile</a>
+  <a *ngIf="myProfile()" href="{{PageRoutes.editProfile}}" >Edit Profile</a>
 </ng-template>
 
-<app-tweet-list></app-tweet-list>
+<app-tweet-list userName="Béla"></app-tweet-list>
 <!--    TODO: leszúrni a saját tweeteket-->

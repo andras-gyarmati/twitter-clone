@@ -3,7 +3,7 @@
   <nz-list-header>
     <!--todo logged in user-->
     <!--[avatarUrl]=""-->
-    <app-new-tweet
+    <app-new-tweet *ngIf="canCreateNewPost()"
     [username]="'andris'"
     ></app-new-tweet>
     <!--    TODO: csak akkor legyen itt, a tweets oldalom vagyunk...-->

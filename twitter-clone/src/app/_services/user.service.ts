@@ -30,7 +30,8 @@ export class UserService {
 
   async login(loginRequest: LoginRequest): Promise<any> {
     // return of({token: 'my_token'}).pipe(delay(1000))
-    const tocken = await lastValueFrom(this.httpClient.post<any>(`http://localhost:5017/users/login`, loginRequest));
-    console.log(tocken);
+    const token = await lastValueFrom(this.httpClient.post<any>(`http://localhost:5017/users/login`, loginRequest));
+    console.log(token.message);
+    this.store(token.message);
   }
 }
