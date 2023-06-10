@@ -13,10 +13,10 @@
       </div>
       <nz-row nz-col nzSpan="8" nzOffset="8" nzJustify="end" class="right-menu">
         <ul nz-menu nzTheme="dark" nzMode="horizontal">
-          <li nz-menu-item *ngIf="!userService.isLoggedIn"><a href="{{PageRoutes.login}}"><span nz-icon nzType="login"></span> Login</a></li>
-          <li nz-menu-item *ngIf="!userService.isLoggedIn"><a href="{{PageRoutes.register}}"><span nz-icon nzType="lock"></span> Registration</a></li>
-          <li nz-menu-item *ngIf="userService.isLoggedIn"><a href="{{PageRoutes.profile}}"><span nz-icon nzType="user"></span> Profile</a></li>
-          <li nz-menu-item *ngIf="userService.isLoggedIn"><span nz-icon nzType="logout"></span> Logout</li>
+          <li nz-menu-item *ngIf="!userService.isLoggedIn"><a href="{{PageRoutes.login}}"><span nz-icon nzType="login"></span>Login</a></li>
+          <li nz-menu-item *ngIf="!userService.isLoggedIn"><a href="{{PageRoutes.register}}"><span nz-icon nzType="lock"></span>Registration</a></li>
+          <li nz-menu-item *ngIf="userService.isLoggedIn"><a href="{{PageRoutes.profile}}"><span nz-icon nzType="user"></span>Profile</a></li>
+          <li nz-menu-item *ngIf="userService.isLoggedIn" (click)="logOut()"><span nz-icon nzType="logout"></span>Logout</li>
         </ul>
       </nz-row>
     </div>

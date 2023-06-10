@@ -52,3 +52,7 @@ nz-content {
 nz-footer {
   flex-shrink: 0;
 }
+
+span.anticon {
+  margin-right: 5px;
+}

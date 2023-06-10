@@ -6,15 +6,14 @@ import {PageRoutes} from "../_constants/page-routes";
   providedIn: 'root'
 })
 export class RouterService {
-
   constructor(private router: Router) {
   }
 
   routeToTweets(): void {
     this.router.navigateByUrl(`/${PageRoutes.tweets}`);
   }
+
   routeToLogin(): void {
     this.router.navigateByUrl(`/${PageRoutes.login}`);
   }
-
 }

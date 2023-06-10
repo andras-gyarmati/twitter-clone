@@ -7,13 +7,15 @@ import {LoginRequest} from "../models/loginRequest";
 import {PageRoutes} from "../_constants/page-routes";
 import {Router} from "@angular/router";
 import {User} from "../models/user";
+import {RouterService} from "./router.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   public isLoggedIn: boolean = false;
-  constructor(private httpClient: HttpClient, private router: Router) {
+
+  constructor(private httpClient: HttpClient, private routerService: RouterService) {
     this.isLoggedIn = this.get() !== null;
   }
 
@@ -32,7 +34,7 @@ export class UserService {
   remove(): void {
     localStorage.removeItem(StorageKeys.session);
     localStorage.removeItem(StorageKeys.loggedInUser);
-    this.router.navigateByUrl(`/${PageRoutes.login}`);
+    this.routerService.routeToLogin();
     this.isLoggedIn = false;
   }
 

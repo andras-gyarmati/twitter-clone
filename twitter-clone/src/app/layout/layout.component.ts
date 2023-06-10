@@ -12,6 +12,11 @@ export class LayoutComponent {
   protected readonly PageRoutes = PageRoutes;
   protected readonly RouterService = RouterService;
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, private routerService: RouterService) {
+  }
+
+  logOut() {
+    this.userService.remove();
+    this.routerService.routeToLogin();
   }
 }
