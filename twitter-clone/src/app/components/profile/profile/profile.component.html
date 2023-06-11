@@ -13,13 +13,13 @@
     </nz-descriptions-item>
   </nz-descriptions>
   <nz-button-group>
-    <button *ngIf="isFollowed" (click)="unFollowed()" nz-button nzType="primary">Follow</button>
-    <button *ngIf="!isFollowed" (click)="followed()" nz-button nzType="primary" nzDanger>Unfollow</button>
+    <button *ngIf="isFollowed" (click)="followClicked()" nz-button nzType="primary">Follow</button>
+    <button *ngIf="!isFollowed" (click)="unfollowClicked()" nz-button nzType="primary" nzDanger>Unfollow</button>
   </nz-button-group>
 </nz-card>
 
 <ng-template #extraTemplate>
-  <a *ngIf="myProfile()" href="{{PageRoutes.editProfile}}">Edit Profile</a>
+  <a *ngIf="isMyProfile()" href="{{PageRoutes.editProfile}}">Edit Profile</a>
 </ng-template>
 
-<app-tweet-list [data]="tweets"></app-tweet-list>
+<app-tweet-list [data]="tweets" [loadMoreTweetsCallback]="loadMoreTweets"></app-tweet-list>

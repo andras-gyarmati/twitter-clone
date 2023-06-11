@@ -1,4 +1,4 @@
 export class StorageKeys {
-  static session: string = "session";
-  static loggedInUser: string = "loggedInUser";
+  static token: string = "token";
+  static loggedInUser: string = "logged_in_user";
 }

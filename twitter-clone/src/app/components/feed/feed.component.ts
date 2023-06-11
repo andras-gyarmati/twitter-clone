@@ -14,6 +14,12 @@ export class FeedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.data = await this.tweetService.get();
+    this.data = await this.tweetService.get(new Date('0001-01-01T00:00:00Z'));
+  }
+
+  loadMoreTweets = async () => {
+    console.log(this.data[this.data.length - 1].createdAt);
+    const response = await this.tweetService.get(new Date(this.data[this.data.length - 1].createdAt));
+    this.data = this.data.concat(response);
   }
 }

@@ -4,8 +4,6 @@ import {lastValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {LoginRequest} from "../models/loginRequest";
-import {PageRoutes} from "../_constants/page-routes";
-import {Router} from "@angular/router";
 import {User} from "../models/user";
 import {RouterService} from "./router.service";
 
@@ -24,7 +22,7 @@ export class UserService {
   }
 
   get(): string | null {
-    return localStorage.getItem(StorageKeys.session);
+    return localStorage.getItem(StorageKeys.token);
   }
 
   getLoggedInUser(): User | undefined {
@@ -32,21 +30,25 @@ export class UserService {
   }
 
   remove(): void {
-    localStorage.removeItem(StorageKeys.session);
+    localStorage.removeItem(StorageKeys.token);
     localStorage.removeItem(StorageKeys.loggedInUser);
     this.routerService.routeToLogin();
     this.isLoggedIn = false;
   }
 
   store(token: string): void {
-    localStorage.setItem(StorageKeys.session, token);
+    localStorage.setItem(StorageKeys.token, token);
     this.isLoggedIn = true;
   }
 
   async login(loginRequest: LoginRequest): Promise<any> {
     const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/login`, loginRequest));
     this.store(token.token);
-    const loggedInUser = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${loginRequest.username}`));
+    const loggedInUser: User = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${loginRequest.username}`, {
+      headers: {
+        Authorization: `Bearer ${this.get()}`
+      }
+    }));
     localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));
   }
 }

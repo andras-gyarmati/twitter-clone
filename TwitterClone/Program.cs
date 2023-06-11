@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace TwitterClone;
@@ -19,6 +20,8 @@ public class Program
         builder.Services.AddRouting(options => { options.LowercaseUrls = true; });
         builder.Services.AddControllers(mvcOptions => mvcOptions.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer())));
         builder.Services.AddAuthorization();
+        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddSingleton<IUserContext, UserContext>();
 
         // Authentication
         var jwtSettings = builder.Configuration.GetSection("Jwt");

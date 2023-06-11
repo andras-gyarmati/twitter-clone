@@ -17,9 +17,13 @@ export class TweetService {
     return 'tweets';
   }
 
-  async get(): Promise<Tweet[]> {
+  async get(from: Date): Promise<Tweet[]> {
     try {
-      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/${this.getPath()}/`, {}));
+      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/${this.getPath()}/`, {
+        headers: {
+          Filtering: from.toJSON()
+        }
+      }));
     } catch (e) {
       if (e instanceof HttpErrorResponse && e?.error?.status === 401) {
         console.log("invalid credentials");
@@ -29,9 +33,13 @@ export class TweetService {
     return [];
   }
 
-  async getUsersTweets(username: string): Promise<Tweet[]> {
+  async getUsersTweets(username: string, from: Date): Promise<Tweet[]> {
     try {
-      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/users/${username}/tweets`, {}));
+      return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/users/${username}/tweets`, {
+        headers: {
+          Filtering: from.toJSON()
+        }
+      }));
     } catch (e) {
       if (e instanceof HttpErrorResponse && e?.error?.status === 401) {
         console.log("invalid credentials");
@@ -42,10 +50,18 @@ export class TweetService {
   }
 
   async post(tweet: CreateTweetRequest): Promise<any> {
-    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/`, tweet));
+    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/`, tweet, {
+      headers: {
+        Authorization: `Bearer ${this.userService.get()}`
+      }
+    }));
   }
 
   async reply(replyToTweetId: number, tweet: CreateTweetRequest): Promise<any> {
-    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/${replyToTweetId}/reply`, tweet));
+    return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/${replyToTweetId}/reply`, tweet, {
+      headers: {
+        Authorization: `Bearer ${this.userService.get()}`
+      }
+    }));
   }
 }

@@ -48,7 +48,7 @@ namespace TwitterClone.Migrations
 
                     b.HasIndex("InReplyToId");
 
-                    b.ToTable("Tweet");
+                    b.ToTable("Tweet", (string)null);
                 });
 
             modelBuilder.Entity("TwitterClone.Models.User", b =>
@@ -82,7 +82,7 @@ namespace TwitterClone.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("TwitterClone.Models.UserUser", b =>
@@ -100,7 +100,7 @@ namespace TwitterClone.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("UserUser");
+                    b.ToTable("UserUser", (string)null);
                 });
 
             modelBuilder.Entity("TwitterClone.Models.Tweet", b =>

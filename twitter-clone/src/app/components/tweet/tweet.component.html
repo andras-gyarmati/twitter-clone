@@ -1,5 +1,5 @@
 <nz-card>
-  <nz-comment [nzAuthor]="data.authorName" [nzDatetime]="(data.createdAt | date) ?? ''">
+  <nz-comment [nzAuthor]="data.authorName" [nzDatetime]="(data.createdAt | date:'short') ?? ''">
     <nz-avatar
       nz-comment-avatar
       nzIcon="user"

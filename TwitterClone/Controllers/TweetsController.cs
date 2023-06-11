@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TwitterClone.Models;
@@ -12,11 +13,13 @@ public class TweetsController : ControllerBase
 {
     private readonly ILogger<TweetsController> _logger;
     private readonly TwitterCloneDbContext _context;
+    private readonly IUserContext _userContext;
 
-    public TweetsController(ILogger<TweetsController> logger, TwitterCloneDbContext context)
+    public TweetsController(ILogger<TweetsController> logger, TwitterCloneDbContext context, IUserContext userContext)
     {
         _logger = logger;
         _context = context;
+        _userContext = userContext;
     }
 
     /// <summary>
@@ -29,20 +32,7 @@ public class TweetsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TweetResponse>))]
     public async Task<IActionResult> Get()
     {
-        var tweets = await _context.Tweets
-            .Include(x => x.Author)
-            .Where(t => !t.IsDeleted)
-            .Take(10) // todo sort and use date
-            .ToListAsync();
-        var tweetResponses = tweets.Select(t => new TweetResponse
-        {
-            Id = t.Id,
-            CreatedAt = t.CreatedAt,
-            AuthorName = t.Author.Username,
-            AuthorProfilePicture = t.Author.ProfilePicture,
-            Content = t.IsDeleted ? "Deleted tweet" : t.Content,
-            LikeCount = t.LikeCount,
-        }).ToList();
+        var tweetResponses = await GetTweetResponseList(_context, HttpContext.Request.Headers["Filtering"].FirstOrDefault() ?? "");
         return Ok(tweetResponses);
     }
 
@@ -80,6 +70,7 @@ public class TweetsController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
@@ -87,10 +78,10 @@ public class TweetsController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == "andris"); // todo userContext
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == _userContext.UserName);
         if (author == null)
         {
-            return new BadRequestObjectResult("Author not found");
+            return BadRequest("Author not found");
         }
         var tweet = new Tweet
         {
@@ -110,6 +101,7 @@ public class TweetsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id:int}")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -133,6 +125,7 @@ public class TweetsController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost("{id:int}/reply")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
@@ -140,10 +133,10 @@ public class TweetsController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == "andris"); // todo userContext
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == _userContext.UserName);
         if (author == null)
         {
-            return new BadRequestObjectResult("Author not found");
+            return BadRequest("Author not found");
         }
         var tweet = new Tweet
         {
@@ -156,5 +149,47 @@ public class TweetsController : ControllerBase
         _context.Tweets.Add(tweet);
         await _context.SaveChangesAsync();
         return Ok(tweet.Id);
+    }
+
+    public static async Task<List<TweetResponse>> GetTweetResponseList(TwitterCloneDbContext context, string filter, string username = null)
+    {
+        var from = DateTime.MinValue;
+        try
+        {
+            from = DateTime.Parse(filter).AddMilliseconds(1);
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+        var isFilteringForAllUsers = string.IsNullOrEmpty(username);
+        var tweets = await context.Tweets
+            .Include(x => x.Author)
+            .Where(x => !x.IsDeleted && from < x.CreatedAt && (isFilteringForAllUsers || x.Author.Username == username))
+            .OrderBy(x => x.CreatedAt)
+            .Take(1)
+            .ToListAsync();
+        var tweetResponses = ToTweetResponseList(context, tweets);
+        return tweetResponses;
+    }
+
+    private static List<TweetResponse> ToTweetResponseList(TwitterCloneDbContext context, List<Tweet> tweets)
+    {
+        var tweetResponses = tweets.Select(t => new TweetResponse
+        {
+            Id = t.Id,
+            CreatedAt = t.CreatedAt,
+            AuthorName = t.Author.Username,
+            AuthorProfilePicture = t.Author.ProfilePicture,
+            Content = t.IsDeleted ? "Deleted tweet" : t.Content,
+            LikeCount = t.LikeCount,
+            ReplyCount = GetReplyCount(context, t)
+        }).ToList();
+        return tweetResponses;
+    }
+
+    private static int GetReplyCount(TwitterCloneDbContext context, Tweet tweet)
+    {
+        return context.Tweets.Count(t => t.InReplyToId == tweet.Id);
     }
 }

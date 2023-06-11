@@ -10,7 +10,7 @@
     <app-tweet [data]="item"></app-tweet>
   </nz-list-item>
   <nz-list-footer>
-    <button nz-button nzType="primary">Load more tweets</button>
+    <button nz-button nzType="primary" (click)="loadMoreTweets()">Load more tweets</button>
     <!--    TODO: csak akkor legyen itt, ha van még tweet...-->
   </nz-list-footer>
 </nz-list>

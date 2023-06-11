@@ -10,11 +10,16 @@ import {Tweet} from "../../models/tweet";
 })
 export class TweetListComponent {
   @Input() data: Tweet[] | undefined = [];
+  @Input() loadMoreTweetsCallback: () => Promise<void> = async () => { };
 
   constructor(public msg: NzMessageService, public userService: UserService) {
   }
 
   canCreateNewPost() {
     return this.userService.isLoggedIn;
+  }
+
+  async loadMoreTweets() {
+    await this.loadMoreTweetsCallback();
   }
 }

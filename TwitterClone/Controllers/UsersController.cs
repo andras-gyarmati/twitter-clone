@@ -19,13 +19,10 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly TwitterCloneDbContext _context;
 
-    public static User LoggedInUser { get; set; }
-
     public UsersController(ILogger<UsersController> logger, TwitterCloneDbContext context)
     {
         _logger = logger;
         _context = context;
-        LoggedInUser = new User();
     }
 
     /// <summary>
@@ -34,7 +31,7 @@ public class UsersController : ControllerBase
     /// <param name="username"></param>
     /// <returns></returns>
     [HttpGet("{username}")]
-    // [Authorize]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserResponse))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
@@ -157,9 +154,9 @@ public class UsersController : ControllerBase
         var key = Encoding.ASCII.GetBytes("use-the-generated-key-here"); // TODO: replace with your secret key
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new Claim[]
+            Subject = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Name, user.Username.ToString())
+                new Claim(ClaimTypes.Name, user.Username)
             }),
             Expires = DateTime.UtcNow.AddDays(7), // Set the expiration as per your requirements
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -184,19 +181,18 @@ public class UsersController : ControllerBase
         {
             return NotFound();
         }
+        User loggedInUser = null;
         if (User.Identity != null)
         {
-            var loggedInUsername = User.Identity.Name; // This gets the username from the JWT
-            LoggedInUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == loggedInUsername);
+            loggedInUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
         }
-        if (LoggedInUser == null)
+        if (loggedInUser == null)
         {
-            // return Unauthorized
             return Unauthorized();
         }
         var follow = new UserUser
         {
-            Follower = LoggedInUser,
+            Follower = loggedInUser,
             Followed = user,
             FollowDate = DateTime.UtcNow
         };
@@ -215,19 +211,10 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TweetResponse>))]
     public async Task<IActionResult> GetTweets(string username)
     {
-        var tweets = await _context.Tweets
-            .Include(x => x.Author)
-            .Where(t => !t.IsDeleted && t.Author.Username == username)
-            .Take(10) // todo sort and use date
-            .ToListAsync();
-        var tweetResponses = tweets.Select(t => new TweetResponse
-        {
-            Id = t.Id,
-            CreatedAt = t.CreatedAt,
-            AuthorName = t.Author.Username,
-            AuthorProfilePicture = t.Author.ProfilePicture,
-            Content = t.IsDeleted ? "Deleted tweet" : t.Content
-        }).ToList();
+        var tweetResponses = await TweetsController.GetTweetResponseList(
+            _context,
+            HttpContext.Request.Headers["Filtering"].FirstOrDefault() ?? "",
+            username);
         return Ok(tweetResponses);
     }
 }
