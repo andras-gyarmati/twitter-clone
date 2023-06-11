@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TwitterClone.Extensions;
 using TwitterClone.Models;
 using TwitterClone.Requests;
@@ -14,7 +19,7 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
     private readonly TwitterCloneDbContext _context;
 
-    public static User LoggedInUser { get; set; } // todo userContext
+    public static User LoggedInUser { get; set; }
 
     public UsersController(ILogger<UsersController> logger, TwitterCloneDbContext context)
     {
@@ -29,6 +34,7 @@ public class UsersController : ControllerBase
     /// <param name="username"></param>
     /// <returns></returns>
     [HttpGet("{username}")]
+    // [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UserResponse))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
@@ -38,7 +44,7 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
-            return new NotFoundResult();
+            return NotFound();
         }
         var userResponse = new UserResponse
         {
@@ -48,7 +54,7 @@ public class UsersController : ControllerBase
             Bio = user.Bio,
             ProfilePicture = user.ProfilePicture
         };
-        return new OkObjectResult(userResponse);
+        return Ok(userResponse);
     }
 
     /// <summary>
@@ -78,7 +84,7 @@ public class UsersController : ControllerBase
         };
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
-        return new CreatedResult($"/users/{newUser.Username}", newUser.Username);
+        return Created($"/users/{newUser.Username}", newUser.Username);
     }
 
     /// <summary>
@@ -98,13 +104,13 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
-            return new NotFoundResult();
+            return NotFound();
         }
         user.BirthDate = request.BirthDate;
         user.Bio = request.Bio;
         user.ProfilePicture = request.ProfilePicture;
         await _context.SaveChangesAsync();
-        return new OkResult();
+        return Ok();
     }
 
     /// <summary>
@@ -123,11 +129,11 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
-            return new NotFoundResult();
+            return NotFound();
         }
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
-        return new OkResult();
+        return Ok();
     }
 
     /// <summary>
@@ -145,9 +151,21 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.UserName);
         if (user == null || user.Password != loginRequest.Password.GetHash())
         {
-            return new UnauthorizedResult();
+            return Unauthorized();
         }
-        return Ok(new { token = "hello" });
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes("use-the-generated-key-here"); // TODO: replace with your secret key
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.Username.ToString())
+            }),
+            Expires = DateTime.UtcNow.AddDays(7), // Set the expiration as per your requirements
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return Ok(new { token = tokenHandler.WriteToken(token) });
     }
 
     /// <summary>
@@ -164,9 +182,18 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
-            return new NotFoundResult();
+            return NotFound();
         }
-        LoggedInUser = _context.Users.FirstOrDefault(u => u.Username == "andris"); // todo userContext
+        if (User.Identity != null)
+        {
+            var loggedInUsername = User.Identity.Name; // This gets the username from the JWT
+            LoggedInUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == loggedInUsername);
+        }
+        if (LoggedInUser == null)
+        {
+            // return Unauthorized
+            return Unauthorized();
+        }
         var follow = new UserUser
         {
             Follower = LoggedInUser,
@@ -175,7 +202,7 @@ public class UsersController : ControllerBase
         };
         await _context.UserUsers.AddAsync(follow);
         await _context.SaveChangesAsync();
-        return new OkResult();
+        return Ok();
     }
 
     /// <summary>

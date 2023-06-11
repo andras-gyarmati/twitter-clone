@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PageRoutes} from "../_constants/page-routes";
-import {RouterService} from "../_services/router.service"
+import {RouterService} from "../_services/router.service";
 import {UserService} from "../_services/user.service";
 
 @Component({
@@ -10,7 +10,6 @@ import {UserService} from "../_services/user.service";
 })
 export class LayoutComponent {
   protected readonly PageRoutes = PageRoutes;
-  protected readonly RouterService = RouterService;
 
   constructor(public userService: UserService, private routerService: RouterService) {
   }
