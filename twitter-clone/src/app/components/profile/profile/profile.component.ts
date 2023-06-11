@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   async ngOnInit() {
     const user = this.userService.getLoggedInUser();
     if (user) {
-      this.tweets = await this.tweetService.getUsersTweets(user.username, new Date('0001-01-01T00:00:00Z'));
+      this.tweets = await this.tweetService.getUsersTweets(user.username, new Date());
     }
   }
 

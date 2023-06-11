@@ -40,8 +40,8 @@ public class Program
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidIssuer = jwtSettings.Get<JwtSettings>().Issuer,
                     ValidAudience = jwtSettings.Get<JwtSettings>().Audience
                 };

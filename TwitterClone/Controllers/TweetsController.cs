@@ -156,7 +156,7 @@ public class TweetsController : ControllerBase
         var from = DateTime.MinValue;
         try
         {
-            from = DateTime.Parse(filter).AddMilliseconds(1);
+            from = DateTime.Parse(filter);
         }
         catch (Exception e)
         {
@@ -165,8 +165,8 @@ public class TweetsController : ControllerBase
         var isFilteringForAllUsers = string.IsNullOrEmpty(username);
         var tweets = await context.Tweets
             .Include(x => x.Author)
-            .Where(x => !x.IsDeleted && from < x.CreatedAt && (isFilteringForAllUsers || x.Author.Username == username))
-            .OrderBy(x => x.CreatedAt)
+            .Where(x => !x.IsDeleted && x.CreatedAt < from && (isFilteringForAllUsers || x.Author.Username == username))
+            .OrderByDescending(x => x.CreatedAt)
             .Take(1)
             .ToListAsync();
         var tweetResponses = ToTweetResponseList(context, tweets);
