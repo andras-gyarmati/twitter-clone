@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: PageRoutes.login, component: LoginComponent, canActivate: [PublicGuard]},
   {path: PageRoutes.register, component: RegisterComponent, canActivate: [PublicGuard]},
   {path: PageRoutes.tweets, component: FeedComponent},
-  {path: PageRoutes.profile, component: ProfileComponent, canActivate: [SessionGuard]},
+  {path: `${PageRoutes.profile}/:id`, component: ProfileComponent, canActivate: [SessionGuard]},
   {path: PageRoutes.editProfile, component: EditProfileComponent, canActivate: [SessionGuard]},
   {path: '', redirectTo: `/${PageRoutes.login}`, pathMatch: 'prefix'},
 ];

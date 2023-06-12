@@ -3,6 +3,7 @@ import {PageRoutes} from "../../../_constants/page-routes";
 import {UserService} from "../../../_services/user.service";
 import {TweetService} from "../../../_services/tweet.service";
 import {Tweet} from "../../../models/tweet";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -13,8 +14,12 @@ export class ProfileComponent implements OnInit {
   protected readonly PageRoutes = PageRoutes;
   public isFollowed: boolean = false;
   public tweets: Tweet[] = [];
+  private username: string | undefined = undefined;
 
-  constructor(public userService: UserService, private tweetService: TweetService) {
+  constructor(public userService: UserService, private tweetService: TweetService, private route: ActivatedRoute,) {
+    this.route.params.subscribe(params => {
+      this.username = params['id'];
+    });
   }
 
   async ngOnInit() {

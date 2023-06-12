@@ -52,7 +52,7 @@ export class TweetService {
   async post(tweet: CreateTweetRequest): Promise<any> {
     return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/`, tweet, {
       headers: {
-        Authorization: `Bearer ${this.userService.get()}`
+        Authorization: `Bearer ${this.userService.getToken()}`
       }
     }));
   }
@@ -60,7 +60,7 @@ export class TweetService {
   async reply(replyToTweetId: number, tweet: CreateTweetRequest): Promise<any> {
     return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/${replyToTweetId}/reply`, tweet, {
       headers: {
-        Authorization: `Bearer ${this.userService.get()}`
+        Authorization: `Bearer ${this.userService.getToken()}`
       }
     }));
   }
