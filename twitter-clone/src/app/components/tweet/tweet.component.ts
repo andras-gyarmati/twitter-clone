@@ -3,6 +3,7 @@ import {TweetService} from "../../_services/tweet.service";
 import {Tweet} from "../../models/tweet";
 import {UserService} from "../../_services/user.service";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {PageRoutes} from "../../_constants/page-routes";
 
 @Component({
   selector: 'app-tweet',
@@ -53,4 +54,6 @@ export class TweetComponent {
       }
     });
   }
+
+  protected readonly PageRoutes = PageRoutes;
 }

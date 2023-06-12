@@ -14,14 +14,14 @@ export class UserService {
   public isLoggedIn: boolean = false;
 
   constructor(private httpClient: HttpClient, private routerService: RouterService) {
-    this.isLoggedIn = this.get() !== null;
+    this.isLoggedIn = this.getToken() !== null;
   }
 
   private getPath() {
     return 'users';
   }
 
-  get(): string | null {
+  getToken(): string | null {
     return localStorage.getItem(StorageKeys.token);
   }
 
@@ -46,7 +46,7 @@ export class UserService {
     this.store(token.token);
     const loggedInUser: User = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${loginRequest.username}`, {
       headers: {
-        Authorization: `Bearer ${this.get()}`
+        Authorization: `Bearer ${this.getToken()}`
       }
     }));
     localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));

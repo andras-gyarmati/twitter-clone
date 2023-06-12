@@ -52,15 +52,9 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      username: [null, [Validators.required]],
       phoneNumberPrefix: ['+36'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false],
+      phoneNumber: [null, [Validators.pattern("[0-9]{9}")]],
+      website: [null],
       birthdate: [null],
     });
   }

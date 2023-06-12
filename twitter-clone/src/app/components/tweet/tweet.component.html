@@ -1,5 +1,8 @@
 <nz-card>
-  <nz-comment [nzAuthor]="data.authorName" [nzDatetime]="(data.createdAt | date:'short') ?? ''">
+  <nz-comment [nzAuthor]="authorNameTemplate" [nzDatetime]="(data.createdAt | date:'short') ?? ''">
+    <ng-template #authorNameTemplate>
+      <a href="{{PageRoutes.profile}}/{{data.authorName}}">{{data.authorName}}</a>
+    </ng-template>
     <nz-avatar
       nz-comment-avatar
       nzIcon="user"
@@ -23,3 +26,4 @@
     </nz-comment-action>
   </nz-comment>
 </nz-card>
+

@@ -18,4 +18,6 @@ export class LayoutComponent {
     this.userService.remove();
     this.routerService.routeToLogin();
   }
+
+  protected readonly UserService = UserService;
 }
