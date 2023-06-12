@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {NzMessageService} from 'ng-zorro-antd/message';
 import {UserService} from "../../_services/user.service";
 import {Tweet} from "../../models/tweet";
+import {TweetService} from "../../_services/tweet.service";
 
 @Component({
   selector: 'app-tweet-list',
@@ -9,10 +9,11 @@ import {Tweet} from "../../models/tweet";
   styleUrls: ['./tweet-list.component.css']
 })
 export class TweetListComponent {
-  @Input() data: Tweet[] | undefined = [];
-  @Input() loadMoreTweetsCallback: () => Promise<void> = async () => { };
+  @Input() data: Tweet[] = [];
+  @Input() loadMoreTweetsCallback: () => Promise<void> = async () => {
+  };
 
-  constructor(public msg: NzMessageService, public userService: UserService) {
+  constructor(public userService: UserService, public tweetService: TweetService) {
   }
 
   canCreateNewPost() {
@@ -22,4 +23,15 @@ export class TweetListComponent {
   async loadMoreTweets() {
     await this.loadMoreTweetsCallback();
   }
+
+  loadReply = async (id: number) => {
+    try {
+      const response = await this.tweetService.getById(id);
+      if (response) {
+        this.data = [response].concat(this.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }

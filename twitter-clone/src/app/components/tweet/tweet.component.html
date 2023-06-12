@@ -14,7 +14,10 @@
       </button>
     </nz-comment-action>
     <nz-comment-action>
-      <button nz-button nzType="link" (click)="reply()">
+        <ng-template #modalContent let-modal>
+          <textarea [(ngModel)]="textValue" nz-input placeholder="Please input content here"></textarea>
+        </ng-template>
+      <button nz-button nzType="link" (click)="reply(modalContent)">
         <i nz-icon nzType="message" nzTheme="outline"></i> {{ data.replyCount }}
       </button>
     </nz-comment-action>

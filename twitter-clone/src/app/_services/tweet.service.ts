@@ -33,6 +33,18 @@ export class TweetService {
     return [];
   }
 
+  async getById(id: number): Promise<Tweet | undefined> {
+    try {
+      return await lastValueFrom(this.httpClient.get<Tweet | undefined>(`${environment.apiUrl}/${this.getPath()}/${id}`, {}));
+    } catch (e) {
+      if (e instanceof HttpErrorResponse && e?.error?.status === 401) {
+        console.log("invalid credentials");
+        this.userService.remove();
+      }
+    }
+    return undefined;
+  }
+
   async getUsersTweets(username: string, from: Date): Promise<Tweet[]> {
     try {
       return await lastValueFrom(this.httpClient.get<Tweet[]>(`${environment.apiUrl}/users/${username}/tweets`, {
@@ -59,6 +71,14 @@ export class TweetService {
 
   async reply(replyToTweetId: number, tweet: CreateTweetRequest): Promise<any> {
     return await lastValueFrom(this.httpClient.post<Tweet>(`${environment.apiUrl}/${this.getPath()}/${replyToTweetId}/reply`, tweet, {
+      headers: {
+        Authorization: `Bearer ${this.userService.get()}`
+      }
+    }));
+  }
+
+  async like(id: number): Promise<any> {
+    return await lastValueFrom(this.httpClient.post(`${environment.apiUrl}/${this.getPath()}/${id}/like`, {}, {
       headers: {
         Authorization: `Bearer ${this.userService.get()}`
       }

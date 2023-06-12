@@ -25,6 +25,14 @@ public class TwitterCloneDbContext : DbContext
     {
         modelBuilder.Entity<Tweet>().HasOne(t => t.Author).WithMany(a => a.Tweets).HasForeignKey(x => x.AuthorId);
         modelBuilder.Entity<Tweet>().HasOne(t => t.InReplyTo).WithMany(t => t.Replies).HasForeignKey(t => t.InReplyToId).OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.LikedTweets)
+            .WithMany(t => t.LikedByUsers)
+            .UsingEntity<Dictionary<string, object>>(
+                "UserTweetLikes",
+                j => j.HasOne<Tweet>().WithMany().HasForeignKey("TweetId"),
+                j => j.HasOne<User>().WithMany().HasForeignKey("UserId")
+            );
         modelBuilder.Entity<UserUser>().HasKey(u => new { u.FollowedId, u.FollowerId });
         modelBuilder.Entity<UserUser>().HasOne(u => u.Follower).WithMany(u => u.Following).HasForeignKey(u => u.FollowerId).OnDelete(DeleteBehavior.NoAction);
         modelBuilder.Entity<UserUser>().HasOne(u => u.Followed).WithMany(u => u.Followers).HasForeignKey(u => u.FollowedId).OnDelete(DeleteBehavior.NoAction);

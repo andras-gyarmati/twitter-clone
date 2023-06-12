@@ -31,4 +31,6 @@ public class User
     public List<UserUser> Following { get; set; }
 
     public List<UserUser> Followers { get; set; }
+
+    public List<Tweet> LikedTweets { get; set; }
 }

@@ -56,10 +56,13 @@ public class TweetsController : ControllerBase
         }
         var tweetResponse = new TweetResponse
         {
+            Id = tweet.Id,
             CreatedAt = tweet.CreatedAt,
             AuthorName = tweet.Author.Username,
             AuthorProfilePicture = tweet.Author.ProfilePicture,
-            Content = tweet.IsDeleted ? "Deleted tweet" : tweet.Content
+            Content = tweet.IsDeleted ? "Deleted tweet" : tweet.Content,
+            LikeCount = GetLikeCount(_context, tweet.Id),
+            ReplyCount = GetReplyCount(_context, tweet)
         };
         return Ok(tweetResponse);
     }
@@ -81,7 +84,7 @@ public class TweetsController : ControllerBase
         var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == _userContext.UserName);
         if (author == null)
         {
-            return BadRequest("Author not found");
+            return Unauthorized();
         }
         var tweet = new Tweet
         {
@@ -136,7 +139,7 @@ public class TweetsController : ControllerBase
         var author = await _context.Users.FirstOrDefaultAsync(x => x.Username == _userContext.UserName);
         if (author == null)
         {
-            return BadRequest("Author not found");
+            return Unauthorized();
         }
         var tweet = new Tweet
         {
@@ -149,6 +152,41 @@ public class TweetsController : ControllerBase
         _context.Tweets.Add(tweet);
         await _context.SaveChangesAsync();
         return Ok(tweet.Id);
+    }
+
+    /// <summary>
+    ///     Like tweet
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("{id:int}/like")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> LikeTweet(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        var user = await _context.Users
+            .Include(x => x.LikedTweets)
+            .FirstOrDefaultAsync(x => x.Username == _userContext.UserName);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+        var tweet = await _context.Tweets.FirstOrDefaultAsync(t => t.Id == id);
+        if (tweet == null)
+        {
+            return NotFound();
+        }
+        if (user.LikedTweets.Any(t => t.Id == id))
+        {
+            return BadRequest("Tweet already liked");
+        }
+        user.LikedTweets.Add(tweet);
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 
     public static async Task<List<TweetResponse>> GetTweetResponseList(TwitterCloneDbContext context, string filter, string username = null)
@@ -182,10 +220,15 @@ public class TweetsController : ControllerBase
             AuthorName = t.Author.Username,
             AuthorProfilePicture = t.Author.ProfilePicture,
             Content = t.IsDeleted ? "Deleted tweet" : t.Content,
-            LikeCount = t.LikeCount,
+            LikeCount = GetLikeCount(context, t.Id),
             ReplyCount = GetReplyCount(context, t)
         }).ToList();
         return tweetResponses;
+    }
+
+    private static int GetLikeCount(TwitterCloneDbContext context, int tweetId)
+    {
+        return context.Tweets.Where(t => t.Id == tweetId).Take(1).Select(x => x.LikedByUsers.Count).FirstOrDefault();
     }
 
     private static int GetReplyCount(TwitterCloneDbContext context, Tweet tweet)

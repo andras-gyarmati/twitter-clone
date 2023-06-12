@@ -36,10 +36,11 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzTagModule} from "ng-zorro-antd/tag";
 import {NewTweetComponent} from './components/new-tweet/new-tweet.component';
 import {NzResizableModule} from "ng-zorro-antd/resizable";
-import { ProfileComponent } from './components/profile/profile/profile.component';
+import {ProfileComponent} from './components/profile/profile/profile.component';
 import {NzDescriptionsModule} from "ng-zorro-antd/descriptions";
 import {NzUploadModule} from "ng-zorro-antd/upload";
-import { FeedComponent } from './components/feed/feed.component';
+import {FeedComponent} from './components/feed/feed.component';
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 registerLocaleData(en);
 
@@ -85,7 +86,8 @@ registerLocaleData(en);
     NzTagModule,
     NzResizableModule,
     NzDescriptionsModule,
-    NzUploadModule
+    NzUploadModule,
+    NzModalModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}

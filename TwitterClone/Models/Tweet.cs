@@ -26,5 +26,5 @@ public class Tweet
 
     public List<Tweet> Replies { get; set; }
 
-    public int LikeCount { get; set; }
+    public List<User> LikedByUsers { get; set; }
 }
