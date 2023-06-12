@@ -80,7 +80,7 @@ export class TweetService {
   async like(id: number): Promise<any> {
     return await lastValueFrom(this.httpClient.post(`${environment.apiUrl}/${this.getPath()}/${id}/like`, {}, {
       headers: {
-        Authorization: `Bearer ${this.userService.get()}`
+        Authorization: `Bearer ${this.userService.getToken()}`
       }
     }));
   }
