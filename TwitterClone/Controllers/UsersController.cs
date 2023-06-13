@@ -38,7 +38,9 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(string username)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var user = await _context.Users
+            .Include(x => x.Following)
+            .FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
             return NotFound();
@@ -49,7 +51,8 @@ public class UsersController : ControllerBase
             Email = user.Email,
             BirthDate = user.BirthDate,
             Bio = user.Bio,
-            ProfilePicture = user.ProfilePicture
+            ProfilePicture = user.ProfilePicture,
+            Following = user.Following.Select(x => x.Followed.Username).ToArray()
         };
         return Ok(userResponse);
     }
@@ -176,27 +179,70 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     public async Task<IActionResult> Follow(string username)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
-        if (user == null)
+        var userToFollow = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (userToFollow == null)
         {
             return NotFound();
         }
         User loggedInUser = null;
         if (User.Identity != null)
         {
-            loggedInUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+            loggedInUser = await _context.Users
+                .Include(x => x.Following)
+                .FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
         }
         if (loggedInUser == null)
         {
             return Unauthorized();
         }
+        if (loggedInUser.Following.Any(x => x.FollowedId == userToFollow.Id))
+        {
+            return BadRequest("You are already following this user");
+        }
         var follow = new UserUser
         {
             Follower = loggedInUser,
-            Followed = user,
+            Followed = userToFollow,
             FollowDate = DateTime.UtcNow
         };
         await _context.UserUsers.AddAsync(follow);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Unfollow user
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    [HttpPost("unfollow/{username}")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    public async Task<IActionResult> Unfollow(string username)
+    {
+        var userToUnfollow = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (userToUnfollow == null)
+        {
+            return NotFound();
+        }
+        User loggedInUser = null;
+        if (User.Identity != null)
+        {
+            loggedInUser = await _context.Users
+                .Include(x => x.Following)
+                .FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+        }
+        if (loggedInUser == null)
+        {
+            return Unauthorized();
+        }
+        if (!loggedInUser.Following.Any(x => x.FollowedId == userToUnfollow.Id))
+        {
+            return BadRequest("You are not following this user");
+        }
+        var follow = loggedInUser.Following.FirstOrDefault(x => x.FollowedId == userToUnfollow.Id);
+        loggedInUser.Following.Remove(follow);
         await _context.SaveChangesAsync();
         return Ok();
     }

@@ -11,4 +11,6 @@ public class UserResponse
     public string Bio { get; set; }
 
     public string ProfilePicture { get; set; }
+
+    public string[] Following { get; set; }
 }
