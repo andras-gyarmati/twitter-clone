@@ -52,7 +52,7 @@ export class UserService {
     localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));
   }
 
-  async getUser(username: string ) {
+  async getUser(username: string) {
     return await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${username}`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`

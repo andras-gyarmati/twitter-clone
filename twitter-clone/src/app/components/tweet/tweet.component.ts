@@ -33,7 +33,7 @@ export class TweetComponent {
 
   async reply(tplContent: TemplateRef<any>) {
     const modalRef: NzModalRef = this.modalService.create({
-      nzTitle: 'Make a replay',
+      nzTitle: 'Make a reply',
       nzContent: tplContent,
       nzOnOk: async () => {
         console.log('OK button was clicked', this.textValue);
