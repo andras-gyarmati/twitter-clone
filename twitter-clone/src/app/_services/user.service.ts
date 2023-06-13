@@ -51,4 +51,21 @@ export class UserService {
     }));
     localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));
   }
+
+  async getUser(username: string ) {
+    return await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${username}`, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }));
+  }
+
+  async doesFollow(username: string) {
+    const followedUsers = await lastValueFrom(this.httpClient.get<User[]>(`${environment.apiUrl}/${this.getPath()}/follow/${this.getLoggedInUser()?.username}`, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }));
+    return !!followedUsers.find(e => e.username === username);
+  }
 }

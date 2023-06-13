@@ -15,8 +15,8 @@ export class ProfileComponent implements OnInit {
   protected readonly PageRoutes = PageRoutes;
   public isFollowed: boolean = false;
   public tweets: Tweet[] = [];
-  private user!: User;
-  private username: string | undefined = undefined;
+  public user!: User;
+  private username: string = "";
 
   constructor(public userService: UserService, private tweetService: TweetService, private route: ActivatedRoute,) {
     this.route.params.subscribe(params => {
@@ -25,11 +25,13 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const user = this.userService.getLoggedInUser();
+    // const user = this.userService.getLoggedInUser();
+    const user = await this.userService.getUser(this.username);
     if (user) {
       this.user = user;
       this.tweets = await this.tweetService.getUsersTweets(user.username, new Date());
     }
+    this.isFollowed = await this.userService.doesFollow(user.username);
   }
 
   loadMoreTweets = async () => {
@@ -39,8 +41,7 @@ export class ProfileComponent implements OnInit {
   };
 
   isMyProfile() {
-    // TODO: ellenőrizni hogy én vagyok-e
-    return true;
+    return this.user?.username === this.userService.getLoggedInUser()?.username;
   }
 
   unfollowClicked() {

@@ -1,18 +1,18 @@
 <nz-card [nzBordered]="false" nzTitle="UserName" [nzExtra]="extraTemplate">
-  <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="userService.getLoggedInUser()?.profilePicture ?? ''"></nz-avatar>
+  <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="this.user?.profilePicture ?? ''"></nz-avatar>
   <nz-descriptions nzTitle="User info" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
-    <nz-descriptions-item nzTitle="UserName">{{userService.getLoggedInUser()?.username}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="E-mail">{{userService.getLoggedInUser()?.email}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Joined">todo</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="UserName">{{this.user?.username}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="E-mail">{{this.user?.email}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Birth Day">todo</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Following">todo</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Followers">todo</nz-descriptions-item>
   </nz-descriptions>
   <nz-descriptions [nzColumn]="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
     <nz-descriptions-item nzTitle="Bio">
-      {{userService.getLoggedInUser()?.bio}}
+      {{this.user?.bio}}
     </nz-descriptions-item>
   </nz-descriptions>
-  <nz-button-group>
+  <nz-button-group *ngIf="!isMyProfile()">
     <button *ngIf="isFollowed" (click)="followClicked()" nz-button nzType="primary">Follow</button>
     <button *ngIf="!isFollowed" (click)="unfollowClicked()" nz-button nzType="primary" nzDanger>Unfollow</button>
   </nz-button-group>
