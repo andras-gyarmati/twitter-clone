@@ -39,7 +39,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Get(string username)
     {
         var user = await _context.Users
-            .Include(x => x.Following)
+            .Include(x => x.Following).ThenInclude(x=> x.Followed)
             .Include(x => x.Followers)
             .FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
@@ -176,6 +176,7 @@ public class UsersController : ControllerBase
     /// <param name="username"></param>
     /// <returns></returns>
     [HttpPost("follow/{username}")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
@@ -218,6 +219,7 @@ public class UsersController : ControllerBase
     /// <param name="username"></param>
     /// <returns></returns>
     [HttpPost("unfollow/{username}")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]

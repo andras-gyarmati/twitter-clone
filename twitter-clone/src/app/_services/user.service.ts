@@ -41,6 +41,10 @@ export class UserService {
     this.isLoggedIn = true;
   }
 
+  storeUserData(user: User): void{
+    localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(user));
+  }
+
   async login(loginRequest: LoginRequest): Promise<any> {
     const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/login`, loginRequest));
     this.store(token.token);
@@ -49,10 +53,10 @@ export class UserService {
         Authorization: `Bearer ${this.getToken()}`
       }
     }));
-    localStorage.setItem(StorageKeys.loggedInUser, JSON.stringify(loggedInUser));
+    this.storeUserData(loggedInUser);
   }
 
-  async getUser(username: string) {
+  async getUser(username: string): Promise<User> {
     return await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${username}`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
@@ -60,12 +64,19 @@ export class UserService {
     }));
   }
 
-  async doesFollow(username: string) {
-    const followedUsers = await lastValueFrom(this.httpClient.get<User[]>(`${environment.apiUrl}/${this.getPath()}/follow/${this.getLoggedInUser()?.username}`, {
+  async follow(username: string) {
+    return await lastValueFrom(this.httpClient.post(`${environment.apiUrl}/${this.getPath()}/follow/${username}`, null,{
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }
     }));
-    return !!followedUsers.find(e => e.username === username);
+  }
+
+  async unfollow(username: string) {
+    return await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/unfollow/${username}`, null, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }));
   }
 }

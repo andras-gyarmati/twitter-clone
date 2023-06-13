@@ -3,9 +3,9 @@
   <nz-descriptions nzTitle="User info" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
     <nz-descriptions-item nzTitle="UserName">{{this.user?.username}}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="E-mail">{{this.user?.email}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Birth Day">todo</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Following">todo</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Followers">todo</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Birth Day">{{this.user?.birthDate|date:"mediumDate"}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Following">{{this.user?.following?.length?? 0}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Followers">{{this.user?.followerCount?? 0}}</nz-descriptions-item>
   </nz-descriptions>
   <nz-descriptions [nzColumn]="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
     <nz-descriptions-item nzTitle="Bio">
@@ -13,8 +13,8 @@
     </nz-descriptions-item>
   </nz-descriptions>
   <nz-button-group *ngIf="!isMyProfile()">
-    <button *ngIf="isFollowed" (click)="followClicked()" nz-button nzType="primary">Follow</button>
-    <button *ngIf="!isFollowed" (click)="unfollowClicked()" nz-button nzType="primary" nzDanger>Unfollow</button>
+    <button *ngIf="!isFollowed" (click)="followClicked()" nz-button nzType="primary">Follow</button>
+    <button *ngIf="isFollowed" (click)="unfollowClicked()" nz-button nzType="primary" nzDanger>Unfollow</button>
   </nz-button-group>
 </nz-card>
 

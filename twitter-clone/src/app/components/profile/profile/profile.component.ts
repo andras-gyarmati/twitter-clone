@@ -13,7 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
   protected readonly PageRoutes = PageRoutes;
-  public isFollowed: boolean = false;
+  public isFollowed: boolean | undefined = false;
   public tweets: Tweet[] = [];
   public user!: User;
   private username: string = "";
@@ -30,8 +30,12 @@ export class ProfileComponent implements OnInit {
     if (user) {
       this.user = user;
       this.tweets = await this.tweetService.getUsersTweets(user.username, new Date());
+      if (this.isMyProfile()) {
+        this.userService.storeUserData(user);
+      }
     }
-    this.isFollowed = await this.userService.doesFollow(user.username);
+    this.isFollowed = this.userService.getLoggedInUser()?.following?.some(e => e === this.username);
+    console.log(this.userService.getLoggedInUser())
   }
 
   loadMoreTweets = async () => {
@@ -44,13 +48,33 @@ export class ProfileComponent implements OnInit {
     return this.user?.username === this.userService.getLoggedInUser()?.username;
   }
 
-  unfollowClicked() {
-    // TODO: ellenőrizni hogy követem-e
-    this.isFollowed = true;
+  async unfollowClicked() {
+    try {
+      const response = await this.userService.unfollow(this.username);
+      this.isFollowed = false;
+      let loggedInUser = this.userService.getLoggedInUser();
+      if (loggedInUser) {
+        loggedInUser.following = loggedInUser.following.filter(e => e !== this.username);
+        this.userService.storeUserData(loggedInUser);
+        this.user.followerCount--;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  followClicked() {
-    // TODO: ellenőrizni hogy követem-e
-    this.isFollowed = false;
+  async followClicked() {
+    try {
+      const response = await this.userService.follow(this.username);
+      this.isFollowed = true;
+      let loggedInUser = this.userService.getLoggedInUser();
+      if (loggedInUser) {
+        loggedInUser.following = loggedInUser.following.concat(this.username);
+        this.userService.storeUserData(loggedInUser);
+        this.user.followerCount++;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
