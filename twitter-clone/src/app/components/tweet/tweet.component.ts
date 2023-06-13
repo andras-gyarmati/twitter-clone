@@ -17,7 +17,7 @@ export class TweetComponent {
   public textValue: string = '';
 
   constructor(private tweetService: TweetService,
-              private userService: UserService,
+              public userService: UserService,
               private modalService: NzModalService) {
   }
 
@@ -33,7 +33,7 @@ export class TweetComponent {
 
   async reply(tplContent: TemplateRef<any>) {
     const modalRef: NzModalRef = this.modalService.create({
-      nzTitle: 'Test Modal Title',
+      nzTitle: 'Make a replay',
       nzContent: tplContent,
       nzOnOk: async () => {
         console.log('OK button was clicked', this.textValue);

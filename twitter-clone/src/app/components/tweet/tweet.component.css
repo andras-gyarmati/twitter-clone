@@ -23,3 +23,7 @@ nz-card:hover {
 .ant-comment-inner {
   padding: 0 !important;
 }
+
+.replayTitle {
+  margin-top: 20px;
+}

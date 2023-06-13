@@ -18,7 +18,31 @@
     </nz-comment-action>
     <nz-comment-action>
         <ng-template #modalContent let-modal>
-          <textarea [(ngModel)]="textValue" nz-input placeholder="Please input content here"></textarea>
+          <h4 nz-typography>Tweet</h4>
+          <nz-card>
+            <nz-comment [nzAuthor]="authorNameTemplate" [nzDatetime]="(data.createdAt | date:'short') ?? ''">
+              <ng-template #authorNameTemplate>
+                <a href="{{PageRoutes.profile}}/{{data.authorName}}">{{data.authorName}}</a>
+              </ng-template>
+              <nz-avatar
+                nz-comment-avatar
+                nzIcon="user"
+                [nzSrc]="data.authorProfilePicture"
+              ></nz-avatar>
+              <nz-comment-content>
+                <p>{{ data.content }}</p>
+              </nz-comment-content>
+            </nz-comment>
+          </nz-card>
+          <h4 nz-typography class="replayTitle">Replay</h4>
+          <nz-card>
+<!--            <nz-comment [nzAuthor]="userService.getLoggedInUser()?.username">-->
+            <nz-comment>
+              <nz-comment-content>
+                <textarea [(ngModel)]="textValue" nz-input placeholder="Please input content here"></textarea>
+              </nz-comment-content>
+            </nz-comment>
+          </nz-card>
         </ng-template>
       <button nz-button nzType="link" (click)="reply(modalContent)">
         <i nz-icon nzType="message" nzTheme="outline"></i> {{ data.replyCount }}
