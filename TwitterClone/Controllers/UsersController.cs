@@ -153,7 +153,7 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.UserName);
         if (user == null || user.Password != loginRequest.Password.GetHash())
         {
-            return Unauthorized();
+            return Unauthorized("valaminemjo");
         }
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes("use-the-generated-key-here"); // TODO: replace with your secret key

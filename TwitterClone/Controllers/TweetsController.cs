@@ -205,7 +205,7 @@ public class TweetsController : ControllerBase
             .Include(x => x.Author)
             .Where(x => !x.IsDeleted && x.CreatedAt < from && (isFilteringForAllUsers || x.Author.Username == username))
             .OrderByDescending(x => x.CreatedAt)
-            .Take(1)
+            .Take(5)
             .ToListAsync();
         var tweetResponses = ToTweetResponseList(context, tweets);
         return tweetResponses;

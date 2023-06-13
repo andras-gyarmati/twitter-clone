@@ -11,6 +11,7 @@ import {UserService} from "../../_services/user.service";
 })
 export class LoginComponent implements OnInit {
   loginForm!: UntypedFormGroup;
+  isError: boolean = false;
 
   constructor(private fb: UntypedFormBuilder,
               private clientService: TweetService,
@@ -23,9 +24,9 @@ export class LoginComponent implements OnInit {
       try {
         await this.userService.login(this.loginForm.value);
         this.routerService.routeToTweets();
-      } catch (e) {
-        console.log("error:", e);
-        // todo show error message
+      } catch (e:any) {
+        console.log(e["error"]);
+        this.isError = true;
       }
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
@@ -43,5 +44,9 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required]],
       remember: [true]
     });
+  }
+
+  closeClicked():void {
+    this.isError = false;
   }
 }

@@ -41,6 +41,7 @@ import {NzDescriptionsModule} from "ng-zorro-antd/descriptions";
 import {NzUploadModule} from "ng-zorro-antd/upload";
 import {FeedComponent} from './components/feed/feed.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzAlertModule} from "ng-zorro-antd/alert";
 
 registerLocaleData(en);
 
@@ -87,7 +88,8 @@ registerLocaleData(en);
     NzResizableModule,
     NzDescriptionsModule,
     NzUploadModule,
-    NzModalModule
+    NzModalModule,
+    NzAlertModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US}
