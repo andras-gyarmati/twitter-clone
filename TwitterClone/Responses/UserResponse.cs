@@ -13,4 +13,6 @@ public class UserResponse
     public string ProfilePicture { get; set; }
 
     public string[] Following { get; set; }
+
+    public int FollowerCount { get; set; }
 }

@@ -40,6 +40,7 @@ public class UsersController : ControllerBase
     {
         var user = await _context.Users
             .Include(x => x.Following)
+            .Include(x => x.Followers)
             .FirstOrDefaultAsync(u => u.Username == username);
         if (user == null)
         {
@@ -52,7 +53,8 @@ public class UsersController : ControllerBase
             BirthDate = user.BirthDate,
             Bio = user.Bio,
             ProfilePicture = user.ProfilePicture,
-            Following = user.Following.Select(x => x.Followed.Username).ToArray()
+            Following = user.Following.Select(x => x.Followed.Username).ToArray(),
+            FollowerCount = user.Followers.Count
         };
         return Ok(userResponse);
     }
