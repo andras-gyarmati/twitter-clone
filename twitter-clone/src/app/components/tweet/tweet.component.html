@@ -48,6 +48,11 @@
         <i nz-icon nzType="message" nzTheme="outline"></i> {{ data.replyCount }}
       </button>
     </nz-comment-action>
+    <nz-comment-action *ngIf="this.data.authorName === this.userService.getLoggedInUser()?.username">
+      <button nz-button nzType="link" (click)="deleteTweet()">
+        <i nz-icon nzType="delete" nzTheme="outline" style="color: red"></i><span nz-typography nzType="danger"> Delete</span>
+      </button>
+    </nz-comment-action>
   </nz-comment>
 </nz-card>
 

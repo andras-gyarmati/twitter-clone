@@ -84,4 +84,12 @@ export class TweetService {
       }
     }));
   }
+
+  async deleteTweet(id: number): Promise<any> {
+    return await lastValueFrom(this.httpClient.delete(`${environment.apiUrl}/${this.getPath()}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.userService.getToken()}`
+      }
+    }));
+  }
 }

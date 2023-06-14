@@ -41,7 +41,7 @@ export class TweetComponent {
           const response = await this.tweetService.reply(this.data.id, {content: this.textValue});
           console.log(response);
           if (response) {
-            this.loadReplyCallback(response);
+            await this.loadReplyCallback(response);
           }
           this.data.replyCount++;
         } catch (e) {
@@ -56,4 +56,11 @@ export class TweetComponent {
   }
 
   protected readonly PageRoutes = PageRoutes;
+
+  async deleteTweet() {
+    if (this.data.authorName === this.userService.getLoggedInUser()?.username){
+      console.log("delete")
+      await this.tweetService.deleteTweet(this.data.id);
+    }
+  }
 }
