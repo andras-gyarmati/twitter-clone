@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {NzFormTooltipIcon} from 'ng-zorro-antd/form';
+import {UserService} from "../../_services/user.service";
+import {RouterService} from "../../_services/router.service";
 
 @Component({
   selector: 'app-register',
@@ -9,14 +10,22 @@ import {NzFormTooltipIcon} from 'ng-zorro-antd/form';
 })
 export class RegisterComponent implements OnInit {
   validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
 
-  submitForm(): void {
+
+  constructor(private fb: UntypedFormBuilder,
+              private routerService: RouterService,
+              private userService: UserService) {
+  }
+
+  async submitForm(): Promise<void> {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
+      try {
+        await this.userService.register(this.validateForm.value);
+        this.routerService.routeToTweets();
+      } catch (e:any) {
+        console.log(e["error"]);
+      }
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -29,23 +38,20 @@ export class RegisterComponent implements OnInit {
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
-    // Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
+    Promise.resolve().then(() => this.validateForm.controls["checkPassword"].updateValueAndValidity());
   }
 
   confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-    // if (!control.value) {
-    //   return { required: true };
-    // } else if (control.value !== this.validateForm.controls.password.value) {
-    //   return { confirm: true, error: true };
-    // }
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value !== this.validateForm.controls["password"].value) {
+      return { confirm: true, error: true };
+    }
     return {};
   };
 
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
-  }
-
-  constructor(private fb: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {
@@ -54,11 +60,6 @@ export class RegisterComponent implements OnInit {
       password: [null, [Validators.required]],
       checkPassword: [null, [Validators.required, this.confirmationValidator]],
       username: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false]
     });
   }
 }

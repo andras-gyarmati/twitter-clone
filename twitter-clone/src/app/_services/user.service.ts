@@ -6,6 +6,7 @@ import {environment} from "../../environments/environment";
 import {LoginRequest} from "../models/loginRequest";
 import {User} from "../models/user";
 import {RouterService} from "./router.service";
+import {RegisterRequest} from "../models/registerRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,16 @@ export class UserService {
         Authorization: `Bearer ${this.getToken()}`
       }
     }));
+  }
+
+  async register(registerRequest: RegisterRequest): Promise<any> {
+    const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/register`, registerRequest));
+    this.store(token.token);
+    const loggedInUser: User = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${registerRequest.username}`, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }));
+    this.storeUserData(loggedInUser);
   }
 }
