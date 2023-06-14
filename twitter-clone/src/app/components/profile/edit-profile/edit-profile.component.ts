@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-
+import {RouterService} from "../../../_services/router.service";
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import {NzUploadChangeParam} from "ng-zorro-antd/upload";
+import {User} from "../../../models/user";
+import {UserService} from "../../../_services/user.service";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,9 +19,18 @@ export class EditProfileComponent implements OnInit {
     theme: 'twotone'
   };
 
-  submitForm(): void {
+  constructor(private routerService: RouterService,
+              private fb: UntypedFormBuilder,
+              public userService: UserService,
+              private msg: NzMessageService) {}
+
+  public myDatas: User | undefined = this.userService.getLoggedInUser();
+
+  async submitForm(): Promise<void> {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
+      await this.userService.updateUser(this.validateForm.value);
+      //this.routerService.routeToProfile(1);
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -29,37 +41,26 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
-  }
-
-  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
   inputValue: string = "";
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
-
-  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       phoneNumberPrefix: ['+36'],
       phoneNumber: [null, [Validators.pattern("[0-9]{9}")]],
-      website: [null],
-      birthdate: [null],
+      birthDate: [this.myDatas?.birthDate],
+      bio: [this.myDatas?.bio],
+      picture: [null]
     });
   }
 
-  handleChange($event: NzUploadChangeParam) {
-
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 }

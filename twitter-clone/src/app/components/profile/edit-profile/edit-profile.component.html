@@ -3,68 +3,59 @@
   <div nz-col nzSpan="12"><h1 nz-typography>Edit profile</h1></div>
 </div>
 
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="phoneNumber" >Phone Number</nz-form-label>
-        <nz-form-control
-          [nzSm]="16"
-          [nzXs]="24"
-          [nzValidateStatus]="validateForm.controls['phoneNumber']"
-          nzErrorTip="Please input your phone number!"
-        >
-          <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-            <ng-template #addOnBeforeTemplate>
-              <nz-select formControlName="phoneNumberPrefix" class="phone-select">
-                <nz-option nzLabel="+36" nzValue="+36"></nz-option>
-                <nz-option nzLabel="+44" nzValue="+44"></nz-option>
-              </nz-select>
-            </ng-template>
-            <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="website" >Website</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24" >
-          <input nz-input id="website" formControlName="website" placeholder="website" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" >Note</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24">
-          <textarea rows="8" nz-input [(ngModel)]="inputValue"></textarea>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" >Birthdate</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-date-picker formControlName="birthdate"></nz-date-picker>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" >Image</nz-form-label>
-        <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-
-            (nzChange)="handleChange($event)"
-          >
-            <button nz-button>
-              <span nz-icon nzType="upload"></span>
-              Click to Upload
-            </button>
-          </nz-upload>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item nz-row class="register-area">
-        <nz-form-control [nzSpan]="16" [nzOffset]="8">
-          <button nz-button nzType="primary">
-            <span nz-icon nzType="save"></span>
-            Save changes
-          </button>
-        </nz-form-control>
-<!--        <nz-form-control >-->
-<!--      <button nz-button nzType="primary" >Change password</button>-->
-<!--        </nz-form-control>-->
-      </nz-form-item>
-    </form>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="phoneNumber">Phone Number</nz-form-label>
+    <nz-form-control
+      [nzSm]="16"
+      [nzXs]="24"
+      [nzValidateStatus]="validateForm.controls['phoneNumber']"
+      nzErrorTip="Please input your phone number!"
+    >
+      <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+        <ng-template #addOnBeforeTemplate>
+          <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+            <nz-option nzLabel="+36" nzValue="+36"></nz-option>
+            <nz-option nzLabel="+44" nzValue="+44"></nz-option>
+          </nz-select>
+        </ng-template>
+        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="8" [nzXs]="24">Bio</nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24">
+      <textarea rows="8" nz-input formControlName="bio"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="8" [nzXs]="24">BirthDate</nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24">
+      <nz-date-picker formControlName="birthDate"></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="8" [nzXs]="24">Image</nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24">
+      <nz-upload
+        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        [nzHeaders]="{ authorization: 'authorization-text' }"
+        (nzChange)="handleChange($event)"
+      >
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          Click to Upload
+        </button>
+      </nz-upload>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="16" [nzOffset]="8">
+      <button nz-button nzType="primary">
+        <span nz-icon nzType="save"></span>
+        Save changes
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

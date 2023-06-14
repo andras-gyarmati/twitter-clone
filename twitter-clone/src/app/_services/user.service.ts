@@ -82,13 +82,11 @@ export class UserService {
   }
 
   async register(registerRequest: RegisterRequest): Promise<any> {
-    const token = await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}/register`, registerRequest));
-    this.store(token.token);
-    const loggedInUser: User = await lastValueFrom(this.httpClient.get<User>(`${environment.apiUrl}/${this.getPath()}/${registerRequest.username}`, {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`
-      }
-    }));
-    this.storeUserData(loggedInUser);
+    await lastValueFrom(this.httpClient.post<any>(`${environment.apiUrl}/${this.getPath()}`, registerRequest));
+  }
+
+  async updateUser(validateForm: any) {
+    const data: {bio: string, birthDate: Date} = {bio: validateForm.bio, birthDate: validateForm.birthDate};
+    await lastValueFrom(this.httpClient.patch<any>(`${environment.apiUrl}/${this.getPath()}/${this.getLoggedInUser()?.username}`, data));
   }
 }

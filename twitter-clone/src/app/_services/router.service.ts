@@ -16,4 +16,7 @@ export class RouterService {
   routeToLogin(): void {
     this.router.navigateByUrl(`/${PageRoutes.login}`);
   }
+  routeToProfile(id: number): void {
+    this.router.navigateByUrl(`/${PageRoutes.profile}/${id}`);
+  }
 }

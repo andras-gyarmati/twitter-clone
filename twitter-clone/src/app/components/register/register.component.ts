@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
       console.log('submit', this.validateForm.value);
       try {
         await this.userService.register(this.validateForm.value);
-        this.routerService.routeToTweets();
+        this.routerService.routeToLogin() ;
       } catch (e:any) {
         console.log(e["error"]);
       }
