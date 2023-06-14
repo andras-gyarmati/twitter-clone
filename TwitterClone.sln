@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone", "TwitterClone\TwitterClone.csproj", "{D3D36F2B-248B-4781-B226-B0BBEFBC1641}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Tests", "TwitterClone.Tests\TwitterClone.Tests.csproj", "{09B4F583-F185-4836-AFFF-8E00146FD593}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{D3D36F2B-248B-4781-B226-B0BBEFBC1641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D36F2B-248B-4781-B226-B0BBEFBC1641}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3D36F2B-248B-4781-B226-B0BBEFBC1641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B4F583-F185-4836-AFFF-8E00146FD593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B4F583-F185-4836-AFFF-8E00146FD593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B4F583-F185-4836-AFFF-8E00146FD593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B4F583-F185-4836-AFFF-8E00146FD593}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
