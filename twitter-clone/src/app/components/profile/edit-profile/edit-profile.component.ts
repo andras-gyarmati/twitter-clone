@@ -30,7 +30,7 @@ export class EditProfileComponent implements OnInit {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
       await this.userService.updateUser(this.validateForm.value);
-      //this.routerService.routeToProfile(1);
+      this.routerService.routeToProfile(this.userService.getLoggedInUser()?.username?? "");
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -45,8 +45,6 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      phoneNumberPrefix: ['+36'],
-      phoneNumber: [null, [Validators.pattern("[0-9]{9}")]],
       birthDate: [this.myDatas?.birthDate],
       bio: [this.myDatas?.bio],
       picture: [null]

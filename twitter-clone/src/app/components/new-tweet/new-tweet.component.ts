@@ -9,6 +9,7 @@ import {TweetService} from "../../_services/tweet.service";
 export class NewTweetComponent {
   @Input() avatarUrl: string = '';
   @Input() username: string = '';
+  @Input() loadTweetCallback: (id: number) => Promise<void> = async () => {};
   submitting = false;
   inputValue = '';
 
@@ -19,7 +20,15 @@ export class NewTweetComponent {
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';
-    await this.tweetService.post({content: content});
+    try {
+      const response = await this.tweetService.post({content: content});
+      console.log(response);
+      if (response) {
+        await this.loadTweetCallback(response);
+      }
+    } catch (e) {
+      console.log(e);
+    }
     this.submitting = false;
   }
 }
