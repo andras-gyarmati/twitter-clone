@@ -49,6 +49,8 @@ public class TweetsController : ControllerBase
     {
         var tweet = await _context.Tweets
             .Include(x => x.Author)
+            .Include(x => x.InReplyTo)
+            .Include(x => x.Replies)
             .FirstOrDefaultAsync(t => t.Id == id);
         if (tweet == null)
         {
@@ -62,9 +64,32 @@ public class TweetsController : ControllerBase
             AuthorProfilePicture = tweet.Author.ProfilePicture,
             Content = tweet.IsDeleted ? "Deleted tweet" : tweet.Content,
             LikeCount = GetLikeCount(_context, tweet.Id),
-            ReplyCount = GetReplyCount(_context, tweet)
+            ReplyCount = GetReplyCount(_context, tweet),
+            ParentTweets = GetParentTweets(_context, tweet),
+            Replies = GetReplies(_context, tweet)
         };
         return Ok(tweetResponse);
+    }
+
+    private static TweetResponse[] GetReplies(TwitterCloneDbContext context, Tweet tweet)
+    {
+        if (tweet.Replies == null)
+        {
+            return Array.Empty<TweetResponse>();
+        }
+        return tweet.Replies.Where(x => !x.IsDeleted).Select(x => ToTweetResponse(context, x)).ToArray();
+    }
+
+    private static TweetResponse[] GetParentTweets(TwitterCloneDbContext context, Tweet tweet)
+    {
+        var parentTweets = new List<Tweet>();
+        var parentTweet = tweet.InReplyTo;
+        while (parentTweet != null)
+        {
+            parentTweets.Add(parentTweet);
+            parentTweet = parentTweet.InReplyTo;
+        }
+        return parentTweets.OrderBy(x => x.CreatedAt).Select(x => ToTweetResponse(context, x)).ToArray();
     }
 
     /// <summary>
@@ -196,7 +221,7 @@ public class TweetsController : ControllerBase
         {
             from = DateTime.Parse(filter);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // ignored
         }
@@ -213,26 +238,35 @@ public class TweetsController : ControllerBase
 
     private static List<TweetResponse> ToTweetResponseList(TwitterCloneDbContext context, List<Tweet> tweets)
     {
-        var tweetResponses = tweets.Select(t => new TweetResponse
-        {
-            Id = t.Id,
-            CreatedAt = t.CreatedAt,
-            AuthorName = t.Author.Username,
-            AuthorProfilePicture = t.Author.ProfilePicture,
-            Content = t.IsDeleted ? "Deleted tweet" : t.Content,
-            LikeCount = GetLikeCount(context, t.Id),
-            ReplyCount = GetReplyCount(context, t)
-        }).ToList();
+        var tweetResponses = tweets.Select(x => ToTweetResponse(context, x)).ToList();
         return tweetResponses;
+    }
+
+    private static TweetResponse ToTweetResponse(TwitterCloneDbContext context, Tweet tweet)
+    {
+        return new TweetResponse
+        {
+            Id = tweet.Id,
+            CreatedAt = tweet.CreatedAt,
+            AuthorName = tweet.Author.Username,
+            AuthorProfilePicture = tweet.Author.ProfilePicture,
+            Content = tweet.IsDeleted ? "Deleted tweet" : tweet.Content,
+            LikeCount = GetLikeCount(context, tweet.Id),
+            ReplyCount = GetReplyCount(context, tweet)
+        };
     }
 
     private static int GetLikeCount(TwitterCloneDbContext context, int tweetId)
     {
-        return context.Tweets.Where(t => t.Id == tweetId).Take(1).Select(x => x.LikedByUsers.Count).FirstOrDefault();
+        return context.Tweets
+            .Where(t => t.Id == tweetId && !t.IsDeleted)
+            .Take(1)
+            .Select(x => x.LikedByUsers.Count)
+            .FirstOrDefault();
     }
 
     private static int GetReplyCount(TwitterCloneDbContext context, Tweet tweet)
     {
-        return context.Tweets.Count(t => t.InReplyToId == tweet.Id);
+        return context.Tweets.Count(t => t.InReplyToId == tweet.Id && !t.IsDeleted);
     }
 }

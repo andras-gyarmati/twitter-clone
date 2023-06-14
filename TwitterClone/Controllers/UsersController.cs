@@ -86,7 +86,7 @@ public class UsersController : ControllerBase
         };
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
-        return Created($"/users/{newUser.Username}", newUser.Username);
+        return Ok(newUser.Username);
     }
 
     /// <summary>

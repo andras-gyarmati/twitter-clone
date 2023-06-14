@@ -15,4 +15,8 @@ public class TweetResponse
     public int LikeCount { get; set; }
 
     public int ReplyCount { get; set; }
+
+    public TweetResponse[] ParentTweets { get; set; }
+
+    public TweetResponse[] Replies { get; set; }
 }
