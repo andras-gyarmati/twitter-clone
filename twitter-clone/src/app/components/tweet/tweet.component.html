@@ -6,7 +6,7 @@
     <nz-avatar
       nz-comment-avatar
       nzIcon="user"
-      [nzSrc]="data.authorProfilePicture"
+      [nzSrc]="data.authorProfilePicture?? ''"
     ></nz-avatar>
     <nz-comment-content>
       <p>{{ data.content }}</p>
@@ -27,7 +27,7 @@
               <nz-avatar
                 nz-comment-avatar
                 nzIcon="user"
-                [nzSrc]="data.authorProfilePicture"
+                [nzSrc]="data.authorProfilePicture?? ''"
               ></nz-avatar>
               <nz-comment-content>
                 <p>{{ data.content }}</p>

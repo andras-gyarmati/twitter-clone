@@ -1,15 +1,15 @@
 <nz-card [nzBordered]="false" nzTitle="UserName" [nzExtra]="extraTemplate">
-  <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="this.user?.profilePicture ?? ''"></nz-avatar>
+  <nz-avatar nzSize="large" nzIcon="user" [nzSrc]="this.user.profilePicture?? ''"></nz-avatar>
   <nz-descriptions nzTitle="User info" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
-    <nz-descriptions-item nzTitle="UserName">{{this.user?.username}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="E-mail">{{this.user?.email}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Birth Day">{{this.user?.birthDate|date:"mediumDate"}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Following">{{this.user?.following?.length?? 0}}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Followers">{{this.user?.followerCount?? 0}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="UserName">{{this.user.username}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="E-mail">{{this.user.email}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Birth Day">{{this.user.birthDate|date:"mediumDate"}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Following">{{this.user.following.length}}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Followers">{{this.user.followerCount}}</nz-descriptions-item>
   </nz-descriptions>
   <nz-descriptions [nzColumn]="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
     <nz-descriptions-item nzTitle="Bio">
-      {{this.user?.bio}}
+      {{this.user.bio}}
     </nz-descriptions-item>
   </nz-descriptions>
   <nz-button-group *ngIf="!isMyProfile()">

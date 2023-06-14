@@ -34,4 +34,8 @@ export class TweetListComponent {
       console.log(e);
     }
   };
+
+  deleteTweet = async (id: number) => {
+    this.data = this.data.filter(e => e.id !== id);
+  }
 }

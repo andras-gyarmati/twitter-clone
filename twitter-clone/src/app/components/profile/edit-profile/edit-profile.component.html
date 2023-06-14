@@ -5,25 +5,6 @@
 
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
   <nz-form-item>
-    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="phoneNumber">Phone Number</nz-form-label>
-    <nz-form-control
-      [nzSm]="16"
-      [nzXs]="24"
-      [nzValidateStatus]="validateForm.controls['phoneNumber']"
-      nzErrorTip="Please input your phone number!"
-    >
-      <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-        <ng-template #addOnBeforeTemplate>
-          <nz-select formControlName="phoneNumberPrefix" class="phone-select">
-            <nz-option nzLabel="+36" nzValue="+36"></nz-option>
-            <nz-option nzLabel="+44" nzValue="+44"></nz-option>
-          </nz-select>
-        </ng-template>
-        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input/>
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
     <nz-form-label [nzSm]="8" [nzXs]="24">Bio</nz-form-label>
     <nz-form-control [nzSm]="16" [nzXs]="24">
       <textarea rows="8" nz-input formControlName="bio"></textarea>

@@ -12,8 +12,8 @@ import {PageRoutes} from "../../_constants/page-routes";
 })
 export class TweetComponent {
   @Input() data: Tweet = {} as Tweet;
-  @Input() loadReplyCallback: (id: number) => Promise<void> = async () => {
-  };
+  @Input() loadReplyCallback: (id: number) => Promise<void> = async () => {};
+  @Input() deleteTweetCallback: (id: number) => Promise<void> = async () => {};
   public textValue: string = '';
 
   constructor(private tweetService: TweetService,
@@ -59,8 +59,12 @@ export class TweetComponent {
 
   async deleteTweet() {
     if (this.data.authorName === this.userService.getLoggedInUser()?.username){
-      console.log("delete")
-      await this.tweetService.deleteTweet(this.data.id);
+      try {
+        await this.tweetService.deleteTweet(this.data.id);
+        await this.deleteTweetCallback(this.data.id);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 }
