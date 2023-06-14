@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-latest'
+  name: andris-azure-agent-pool
 
 variables:
   solution: '**/*.sln'
