@@ -63,7 +63,7 @@ steps:
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure for Students(35aab0f4-925a-4940-b144-1d8cca2f274a)'
-    appType: 'webApp'
+    appType: 'webAppLinux'
     WebAppName: 'TwitterCloneUI'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
   displayName: 'Publish Angular App'
@@ -74,7 +74,7 @@ steps:
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure for Students(35aab0f4-925a-4940-b144-1d8cca2f274a)'
-    appType: 'webApp'
+    appType: 'webAppLinux'
     WebAppName: 'TwitterCloneApi'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/TwitterClone.zip'
   displayName: 'Publish .NET Core App'
