@@ -42,6 +42,7 @@ import {NzUploadModule} from "ng-zorro-antd/upload";
 import {FeedComponent} from './components/feed/feed.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzAlertModule} from "ng-zorro-antd/alert";
+import { OneTweetComponent } from './components/one-tweet/one-tweet.component';
 
 registerLocaleData(en);
 
@@ -58,6 +59,7 @@ registerLocaleData(en);
     NewTweetComponent,
     ProfileComponent,
     FeedComponent,
+    OneTweetComponent,
   ],
   imports: [
     BrowserModule,

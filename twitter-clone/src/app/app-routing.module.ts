@@ -8,6 +8,7 @@ import {ProfileComponent} from "./components/profile/profile/profile.component";
 import {SessionGuard} from "./_guards/session.guard";
 import {PublicGuard} from "./_guards/public.guard";
 import {FeedComponent} from "./components/feed/feed.component";
+import {OneTweetComponent} from "./components/one-tweet/one-tweet.component";
 
 const routes: Routes = [
   {path: PageRoutes.login, component: LoginComponent, canActivate: [PublicGuard]},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: PageRoutes.tweets, component: FeedComponent},
   {path: `${PageRoutes.profile}/:id`, component: ProfileComponent, canActivate: [SessionGuard]},
   {path: PageRoutes.editProfile, component: EditProfileComponent, canActivate: [SessionGuard]},
+  {path: `${PageRoutes.oneTweet}/:id`, component: OneTweetComponent, canActivate: [SessionGuard]},
   {path: '', redirectTo: `/${PageRoutes.login}`, pathMatch: 'prefix'},
 ];
 

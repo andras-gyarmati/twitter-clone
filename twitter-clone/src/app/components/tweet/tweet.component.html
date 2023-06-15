@@ -1,7 +1,10 @@
 <nz-card>
-  <nz-comment [nzAuthor]="authorNameTemplate" [nzDatetime]="(data.createdAt | date:'short') ?? ''">
+  <nz-comment [nzAuthor]="authorNameTemplate" [nzDatetime]="dateTemplate">
     <ng-template #authorNameTemplate>
       <a href="{{PageRoutes.profile}}/{{data.authorName}}">{{data.authorName}}</a>
+    </ng-template>
+    <ng-template #dateTemplate>
+      <a href="{{PageRoutes.oneTweet}}/{{data.id}}">{{(data.createdAt | date:'short') ?? ''}}</a>
     </ng-template>
     <nz-avatar
       nz-comment-avatar
