@@ -57,3 +57,25 @@ steps:
     projects: '**/*[Tt]ests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --logger trx'
     testRunTitle: 'Unit tests'
+
+# Publish Angular App
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students'
+    appType: 'webApp'
+    WebAppName: 'TwitterCloneUI'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+- script: |
+    ls $(Build.ArtifactStagingDirectory)
+  displayName: 'List build artifacts'
+
+# Publish .NET Core App
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students'
+    appType: 'webApp'
+    WebAppName: 'TwitterCloneApi'
+    packageForLinux: '$(build.artifactStagingDirectory)/TwitterClone.zip'
