@@ -15,7 +15,7 @@ steps:
   displayName: 'Install Node.js'
 
 - powershell: |
-    Get-Location
+    Write-Host $(Build.SourcesDirectory)
 
 - script: |
     npm install -g @angular/cli
