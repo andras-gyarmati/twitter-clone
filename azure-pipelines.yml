@@ -17,7 +17,7 @@ steps:
 - script: |
     cd twitter-clone
     npm install
-    ng build
+    ng build --aot
   displayName: 'Build Angular App'
 
 - task: ArchiveFiles@2
