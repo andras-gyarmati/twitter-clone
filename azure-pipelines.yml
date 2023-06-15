@@ -62,7 +62,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure for Students'
+    azureSubscription: 'Azure for Students(35aab0f4-925a-4940-b144-1d8cca2f274a)'
     appType: 'webApp'
     WebAppName: 'TwitterCloneUI'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
@@ -75,7 +75,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure for Students'
+    azureSubscription: 'Azure for Students(35aab0f4-925a-4940-b144-1d8cca2f274a)'
     appType: 'webApp'
     WebAppName: 'TwitterCloneApi'
-    packageForLinux: '$(build.artifactStagingDirectory)/TwitterClone.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/TwitterClone.zip'
