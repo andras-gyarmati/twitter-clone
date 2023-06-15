@@ -66,10 +66,8 @@ steps:
     appType: 'webApp'
     WebAppName: 'TwitterCloneUI'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  displayName: 'Publish Angular App'
 
-- script: |
-    ls $(Build.ArtifactStagingDirectory)
-  displayName: 'List build artifacts'
 
 # Publish .NET Core App
 - task: AzureRmWebAppDeployment@4
@@ -79,3 +77,4 @@ steps:
     appType: 'webApp'
     WebAppName: 'TwitterCloneApi'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/TwitterClone.zip'
+  displayName: 'Publish .NET Core App'
